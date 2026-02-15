@@ -1,4 +1,4 @@
-import { state, COLORS, PALETTE, firstName, initials } from './state.js';
+import { state, COLORS, PALETTE, firstName, initials, competitionRank } from './state.js';
 import { isDark, applyChartDefaults } from './theme.js';
 import { applyFilters, deriveData, getFilteredTournamentCount, updateDataSourceInfo } from './data.js';
 import { renderSpotlightCard } from './spotlight.js';
@@ -167,7 +167,7 @@ export function buildLeaderboardTable() {
 
   el.innerHTML = rest.map((p, i) => `
     <div class="table-row clickable" onclick="openModal('${p.player}')">
-      <span class="rank">${i + 6}</span>
+      <span class="rank">${competitionRank(state.byPoints, i + 5, 'total_points')}</span>
       <span class="name">${p.player}</span>
       <span class="stat-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</span>
       <span class="stat-val" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
@@ -203,7 +203,7 @@ export function buildLeaderboardTable() {
         const toggle = el.querySelector('.leaderboard-toggle');
         const html = `
           <div class="table-row clickable spotlight-injected" onclick="openModal('${escaped}')">
-            <span class="rank">${idx + 1}</span>
+            <span class="rank">${competitionRank(state.byPoints, idx, 'total_points')}</span>
             <span class="name">${p.player}</span>
             <span class="stat-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</span>
             <span class="stat-val" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
@@ -440,7 +440,7 @@ export function initBreakdownSearch() {
 
 // ===== 4. MINI BOARDS =====
 
-function buildMiniBoard(elId, data, valFn, subFn, color, count = 10) {
+function buildMiniBoard(elId, data, valFn, subFn, color, count = 10, rankKey = 'total_points') {
   const el = document.getElementById(elId);
   const dark = isDark();
   const rankColors = [
@@ -461,7 +461,7 @@ function buildMiniBoard(elId, data, valFn, subFn, color, count = 10) {
     return `
     <li class="clickable${highlight}" onclick="openModal('${p.player}')">
       <div class="mini-left">
-        <span class="mini-rank" style="background: ${rankColors[i] || rankColors[4]}; color: ${i < 3 ? color : 'var(--text-muted)'};">${i + 1}</span>
+        <span class="mini-rank" style="background: ${rankColors[i] || rankColors[4]}; color: ${i < 3 ? color : 'var(--text-muted)'};">${competitionRank(data, i, rankKey)}</span>
         <span class="mini-name">${p.player}</span>
       </div>
       <div class="mini-right">
@@ -477,7 +477,7 @@ function buildMiniBoard(elId, data, valFn, subFn, color, count = 10) {
     html += `
     <li class="clickable spotlight-injected" onclick="openModal('${p.player}')">
       <div class="mini-left">
-        <span class="mini-rank" style="background: light-dark(rgba(217,119,6,0.15), rgba(245,158,11,0.15)); color: var(--accent-gold);">${spFullIdx + 1}</span>
+        <span class="mini-rank" style="background: light-dark(rgba(217,119,6,0.15), rgba(245,158,11,0.15)); color: var(--accent-gold);">${competitionRank(data, spFullIdx, rankKey)}</span>
         <span class="mini-name">${p.player}</span>
       </div>
       <div class="mini-right">
@@ -494,23 +494,22 @@ export function buildAllMiniBoards() {
   buildMiniBoard('board-winrate', state.byWinPct,
     p => p.win_pct + '%',
     p => `${p.wins}W/${p.losses}L`,
-    'var(--accent-emerald)'
+    'var(--accent-emerald)', 10, 'win_pct'
   );
   buildMiniBoard('board-ppt', state.byPPT,
     p => p.ppt.toFixed(2),
     p => `${p.tournaments} tourn.`,
-    'var(--accent-cyan)'
+    'var(--accent-cyan)', 10, 'ppt'
   );
   buildMiniBoard('board-placed', state.byPlaced,
     p => p.placed_pct + '%',
     p => `${p.placed_count}/${p.tournaments}`,
-    'var(--accent-purple)'
+    'var(--accent-purple)', 10, 'placed_pct'
   );
   buildMiniBoard('board-attendance', state.byAttendance,
     p => p.tournaments.toString(),
     p => `${p.participation_pct}%`,
-    'var(--accent-orange)',
-    10
+    'var(--accent-orange)', 10, 'tournaments'
   );
   // Update min-tournament notes
   const minT = state.minTournaments;
@@ -984,8 +983,8 @@ export function buildWinLossChart() {
       labels: entries.map((p, i) => {
         const label = firstName(p.player);
         if (i === spotlightIdx && i >= 10) {
-          const rank = state.byPoints.indexOf(p) + 1;
-          return `#${rank} ${label}`;
+          const rIdx = state.byPoints.indexOf(p);
+          return `#${competitionRank(state.byPoints, rIdx, 'total_points')} ${label}`;
         }
         return label;
       }),

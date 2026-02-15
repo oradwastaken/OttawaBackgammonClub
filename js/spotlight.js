@@ -1,4 +1,4 @@
-import { state, initials } from './state.js';
+import { state, initials, competitionRank } from './state.js';
 
 // ===== HELPERS =====
 
@@ -32,8 +32,9 @@ export function renderSpotlightCard() {
     return;
   }
 
-  const rank = state.byPoints.findIndex(x => x.player === p.player) + 1;
-  const inFilter = rank > 0;
+  const idx = state.byPoints.findIndex(x => x.player === p.player);
+  const inFilter = idx >= 0;
+  const rank = inFilter ? competitionRank(state.byPoints, idx, 'total_points') : 0;
 
   document.getElementById('spotlight-avatar').textContent = initials(p.player);
   document.getElementById('spotlight-name').textContent = p.player;
@@ -85,7 +86,8 @@ export function initSpotlightSearch(rebuildFn) {
     }
 
     dropdown.innerHTML = matches.map(p => {
-      const rank = state.byPoints.findIndex(x => x.player === p.player) + 1;
+      const sIdx = state.byPoints.findIndex(x => x.player === p.player);
+      const rank = sIdx >= 0 ? competitionRank(state.byPoints, sIdx, 'total_points') : 0;
       const detail = rank > 0
         ? `#${rank} &middot; ${Math.round(p.total_points)} pts`
         : `${Math.round(p.total_points)} pts (all-time)`;

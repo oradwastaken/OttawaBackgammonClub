@@ -49,3 +49,12 @@ export function firstName(name) {
   const parts = name.split(' ');
   return parts.length > 1 ? parts[0] + ' ' + parts[parts.length - 1][0] + '.' : name;
 }
+
+/** Standard competition ranking (1224): tied players share the same rank, next rank skips. */
+export function competitionRank(sortedArray, index, key) {
+  if (index < 0 || index >= sortedArray.length) return index + 1;
+  const val = sortedArray[index][key];
+  let rank = index;
+  while (rank > 0 && sortedArray[rank - 1][key] === val) rank--;
+  return rank + 1;
+}
