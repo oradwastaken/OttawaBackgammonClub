@@ -4,7 +4,10 @@ import { state, initials } from './state.js';
 
 export function getSpotlightData() {
   if (!state.spotlightPlayer) return null;
-  return state.players.find(p => p.player === state.spotlightPlayer) || null;
+  // Try filtered players first, fall back to all-time data
+  return state.players.find(p => p.player === state.spotlightPlayer)
+    || state.DATA.players.find(p => p.player === state.spotlightPlayer)
+    || null;
 }
 
 export function getSpotlightRank(sortedArray) {
@@ -30,11 +33,13 @@ export function renderSpotlightCard() {
   }
 
   const rank = state.byPoints.findIndex(x => x.player === p.player) + 1;
+  const inFilter = rank > 0;
 
   document.getElementById('spotlight-avatar').textContent = initials(p.player);
   document.getElementById('spotlight-name').textContent = p.player;
-  document.getElementById('spotlight-rank').textContent =
-    `Rank #${rank} of ${state.byPoints.length} players`;
+  document.getElementById('spotlight-rank').textContent = inFilter
+    ? `Rank #${rank} of ${state.byPoints.length} players`
+    : 'Not active in selected season (showing all-time stats)';
 
   document.getElementById('spotlight-stats').innerHTML = `
     <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-gold)">${Math.round(p.total_points)}</span><span class="ss-label">Points</span></div>
@@ -63,7 +68,7 @@ export function initSpotlightSearch(rebuildFn) {
       return;
     }
 
-    const matches = state.players
+    const matches = state.DATA.players
       .filter(p => p.player.toLowerCase().includes(query))
       .sort((a, b) => b.total_points - a.total_points)
       .slice(0, 8);
@@ -75,10 +80,13 @@ export function initSpotlightSearch(rebuildFn) {
     }
 
     dropdown.innerHTML = matches.map(p => {
-      const rank = state.byPoints.indexOf(p) + 1;
+      const rank = state.byPoints.findIndex(x => x.player === p.player) + 1;
+      const detail = rank > 0
+        ? `#${rank} &middot; ${Math.round(p.total_points)} pts`
+        : `${Math.round(p.total_points)} pts (all-time)`;
       return `<div class="spotlight-dropdown-item" data-name="${p.player}">
         <span>${p.player}</span>
-        <span class="spotlight-dropdown-rank">#${rank} &middot; ${Math.round(p.total_points)} pts</span>
+        <span class="spotlight-dropdown-rank">${detail}</span>
       </div>`;
     }).join('');
     dropdown.style.display = 'block';
@@ -134,7 +142,7 @@ export function clearSpotlight(rebuildFn) {
 export function restoreSpotlight() {
   try {
     const saved = localStorage.getItem('bgclub-spotlight');
-    if (saved && state.players.some(p => p.player === saved)) {
+    if (saved && state.DATA.players.some(p => p.player === saved)) {
       state.spotlightPlayer = saved;
       const input = document.getElementById('spotlight-search');
       if (input) input.value = saved;
