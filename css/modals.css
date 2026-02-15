@@ -88,14 +88,14 @@
 }
 
 .modal-year-pill.active {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.35);
+  background: light-dark(rgba(37, 99, 235, 0.15), rgba(59, 130, 246, 0.15));
+  border-color: light-dark(rgba(37, 99, 235, 0.35), rgba(59, 130, 246, 0.35));
   color: var(--accent-blue);
 }
 
 .modal-year-pill:last-child.active {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.3);
+  background: light-dark(rgba(217, 119, 6, 0.15), rgba(245, 158, 11, 0.15));
+  border-color: light-dark(rgba(217, 119, 6, 0.3), rgba(245, 158, 11, 0.3));
   color: var(--accent-gold);
 }
 
@@ -181,17 +181,17 @@
 
 .upload-status.loading {
   color: var(--accent-blue);
-  background: rgba(59, 130, 246, 0.1);
+  background: light-dark(rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.1));
 }
 
 .upload-status.success {
   color: var(--accent-emerald);
-  background: rgba(16, 185, 129, 0.1);
+  background: light-dark(rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.1));
 }
 
 .upload-status.error {
   color: var(--accent-rose);
-  background: rgba(244, 63, 94, 0.1);
+  background: light-dark(rgba(225, 29, 72, 0.1), rgba(244, 63, 94, 0.1));
 }
 
 .upload-actions {
@@ -214,7 +214,7 @@
 
 .upload-btn-apply {
   background: var(--accent-gold);
-  color: #000;
+  color: light-dark(#fff, #000);
   border-color: var(--accent-gold);
 }
 
@@ -235,8 +235,8 @@
   margin-bottom: 16px;
   padding: 12px;
   border-radius: 8px;
-  background: rgba(250, 204, 21, 0.08);
-  border: 1px solid rgba(250, 204, 21, 0.2);
+  background: light-dark(rgba(217, 119, 6, 0.08), rgba(250, 204, 21, 0.08));
+  border: 1px solid light-dark(rgba(217, 119, 6, 0.2), rgba(250, 204, 21, 0.2));
 }
 
 .export-label {
@@ -270,8 +270,8 @@
   min-height: 16px;
 }
 
-.publish-status.success { color: #10b981; }
-.publish-status.error { color: #f43f5e; }
+.publish-status.success { color: var(--accent-emerald); }
+.publish-status.error { color: var(--accent-rose); }
 .publish-status.loading { color: var(--text-secondary); }
 
 .github-settings {

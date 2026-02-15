@@ -37,9 +37,14 @@ export function renderSpotlightCard() {
 
   document.getElementById('spotlight-avatar').textContent = initials(p.player);
   document.getElementById('spotlight-name').textContent = p.player;
-  document.getElementById('spotlight-rank').textContent = inFilter
-    ? `Rank #${rank} of ${state.byPoints.length} players`
-    : 'Not active in selected season (showing all-time stats)';
+  const rankEl = document.getElementById('spotlight-rank');
+  if (inFilter) {
+    rankEl.textContent = `Rank #${rank} of ${state.byPoints.length} players`;
+    rankEl.classList.remove('spotlight-not-active');
+  } else {
+    rankEl.textContent = 'Not active in selected season — showing all-time stats';
+    rankEl.classList.add('spotlight-not-active');
+  }
 
   document.getElementById('spotlight-stats').innerHTML = `
     <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-gold)">${Math.round(p.total_points)}</span><span class="ss-label">Points</span></div>

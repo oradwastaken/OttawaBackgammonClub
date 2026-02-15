@@ -97,6 +97,11 @@ export function openModal(playerName) {
   modalSelectedYears = state.selectedYears ? new Set(state.selectedYears) : null;
   modalYearsExpanded = false;
 
+  // If player has no data for the selected years, fall back to all-time
+  if (modalSelectedYears && !getModalPlayer()) {
+    modalSelectedYears = null;
+  }
+
   buildModalToggle();
   renderModalStats();
 
@@ -123,16 +128,22 @@ export function openModal(playerName) {
 
   requestAnimationFrame(() => {
     if (yearly) {
+      const currentYear = String(new Date().getFullYear());
+      const lastYearIsPartial = yearly.length > 0 && yearly[yearly.length - 1].year === currentYear;
+      const lastCompleteIdx = lastYearIsPartial ? yearly.length - 2 : yearly.length - 1;
+
       document.querySelector('.modal-chart').style.display = 'block';
       modalChart = new Chart(document.getElementById('modalChart'), {
         type: 'bar',
         data: {
-          labels: yearly.map(y => y.year),
+          labels: yearly.map(y => y.year === currentYear && lastYearIsPartial ? `${y.year}*` : y.year),
           datasets: [
             {
               label: 'Points',
               data: yearly.map(y => y.points),
-              backgroundColor: COLORS.gold + 'bb',
+              backgroundColor: yearly.map((_, i) =>
+                lastYearIsPartial && i === yearly.length - 1 ? COLORS.gold + '55' : COLORS.gold + 'bb'
+              ),
               borderRadius: 4,
               borderSkipped: false,
               yAxisID: 'y',
@@ -144,10 +155,20 @@ export function openModal(playerName) {
               borderColor: COLORS.emerald,
               backgroundColor: COLORS.emerald + '22',
               borderWidth: 2,
-              pointRadius: 4,
-              pointBackgroundColor: COLORS.emerald,
+              pointRadius: yearly.map((_, i) => lastYearIsPartial && i === yearly.length - 1 ? 5 : 4),
+              pointBackgroundColor: yearly.map((_, i) =>
+                lastYearIsPartial && i === yearly.length - 1 ? 'transparent' : COLORS.emerald
+              ),
+              pointBorderWidth: yearly.map((_, i) =>
+                lastYearIsPartial && i === yearly.length - 1 ? 2 : 0
+              ),
+              pointBorderColor: COLORS.emerald,
               tension: 0.3,
               yAxisID: 'y1',
+              segment: lastYearIsPartial ? {
+                borderDash: ctx => ctx.p1DataIndex >= lastCompleteIdx + 1 ? [6, 4] : [],
+                borderWidth: ctx => ctx.p1DataIndex >= lastCompleteIdx + 1 ? 1.6 : 2,
+              } : undefined,
             }
           ]
         },
@@ -155,7 +176,15 @@ export function openModal(playerName) {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            tooltip: {
+              callbacks: {
+                title: items => {
+                  const label = items[0]?.label || '';
+                  return label.endsWith('*') ? `${label.replace('*', '')} (year in progress)` : label;
+                }
+              }
+            }
           },
           scales: {
             y: { position: 'left', title: { display: true, text: 'Points' }, beginAtZero: true },

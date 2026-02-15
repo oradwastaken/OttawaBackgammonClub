@@ -14,9 +14,9 @@ body::before {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 158, 11, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59, 130, 246, 0.06), transparent),
-    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(139, 92, 246, 0.05), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, light-dark(rgba(217, 119, 6, 0.08), rgba(245, 158, 11, 0.08)), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%, light-dark(rgba(37, 99, 235, 0.06), rgba(59, 130, 246, 0.06)), transparent),
+    radial-gradient(ellipse 60% 40% at 20% 80%, light-dark(rgba(124, 58, 237, 0.05), rgba(139, 92, 246, 0.05)), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -41,8 +41,8 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  background: light-dark(rgba(217, 119, 6, 0.1), rgba(245, 158, 11, 0.1));
+  border: 1px solid light-dark(rgba(217, 119, 6, 0.2), rgba(245, 158, 11, 0.2));
   border-radius: 999px;
   padding: 6px 16px;
   font-size: 12px;
@@ -57,7 +57,7 @@ body::before {
   font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 900;
   letter-spacing: -1px;
-  background: linear-gradient(135deg, var(--text-primary), #f59e0b);
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -595,8 +595,8 @@ body::before {
 }
 
 .filter-btn.active {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.3);
+  background: light-dark(rgba(217, 119, 6, 0.15), rgba(245, 158, 11, 0.15));
+  border-color: light-dark(rgba(217, 119, 6, 0.3), rgba(245, 158, 11, 0.3));
   color: var(--accent-gold);
 }
 
@@ -654,8 +654,8 @@ body::before {
 }
 
 .year-pill.active {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.35);
+  background: light-dark(rgba(37, 99, 235, 0.15), rgba(59, 130, 246, 0.15));
+  border-color: light-dark(rgba(37, 99, 235, 0.35), rgba(59, 130, 246, 0.35));
   color: var(--accent-blue);
 }
 
@@ -666,8 +666,8 @@ body::before {
 }
 
 #all-time-btn.active {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.3);
+  background: light-dark(rgba(217, 119, 6, 0.15), rgba(245, 158, 11, 0.15));
+  border-color: light-dark(rgba(217, 119, 6, 0.3), rgba(245, 158, 11, 0.3));
   color: var(--accent-gold);
 }
 
@@ -1029,7 +1029,7 @@ body::before {
 
 .spotlight-search:focus {
   border-color: var(--accent-gold);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  box-shadow: 0 0 0 3px light-dark(rgba(217, 119, 6, 0.1), rgba(245, 158, 11, 0.1));
 }
 
 .spotlight-search::placeholder {
@@ -1125,7 +1125,7 @@ body::before {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(245, 158, 11, 0.15);
+  background: light-dark(rgba(217, 119, 6, 0.15), rgba(245, 158, 11, 0.15));
   border: 2px solid var(--accent-gold);
   color: var(--accent-gold);
   display: flex;
@@ -1144,6 +1144,16 @@ body::before {
 .spotlight-card-rank {
   font-size: 12px;
   color: var(--text-muted);
+}
+
+.spotlight-card-rank.spotlight-not-active {
+  margin-top: 4px;
+  padding: 4px 10px;
+  background: light-dark(rgba(234, 88, 12, 0.15), rgba(249, 115, 22, 0.15));
+  color: var(--accent-orange);
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-block;
 }
 
 .spotlight-card-stats {
@@ -1194,7 +1204,7 @@ body::before {
 .spotlight-injected {
   border-top: 1px dashed var(--accent-gold) !important;
   margin-top: 4px;
-  background: rgba(245, 158, 11, 0.05);
+  background: light-dark(rgba(217, 119, 6, 0.05), rgba(245, 158, 11, 0.05));
 }
 
 .mini-board li.spotlight-injected {
@@ -1202,7 +1212,7 @@ body::before {
   border-bottom: none;
   margin-top: 4px;
   padding-top: 12px;
-  background: rgba(245, 158, 11, 0.05);
+  background: light-dark(rgba(217, 119, 6, 0.05), rgba(245, 158, 11, 0.05));
   border-radius: 0 0 8px 8px;
 }
 
@@ -1219,12 +1229,12 @@ body::before {
 }
 
 .podium-slot.spotlight-active .podium-avatar {
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 16px light-dark(rgba(217, 119, 6, 0.4), rgba(245, 158, 11, 0.4));
 }
 
 /* Table row spotlight */
 .table-row.spotlight-active {
-  background: rgba(245, 158, 11, 0.08);
+  background: light-dark(rgba(217, 119, 6, 0.08), rgba(245, 158, 11, 0.08));
 }
 
 .table-row.spotlight-active::after {

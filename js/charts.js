@@ -103,18 +103,18 @@ export function buildPodium() {
   const podiumEl = document.getElementById('podium');
   const barHeights = { 1: 110, 2: 88, 3: 70, 4: 55, 5: 44 };
   const avatarColors = {
-    1: { bg: 'rgba(245,158,11,0.2)', border: 'var(--accent-gold)', color: 'var(--accent-gold-light)' },
-    2: { bg: 'rgba(148,163,184,0.15)', border: '#94a3b8', color: 'light-dark(#475569, #cbd5e1)' },
-    3: { bg: 'rgba(217,119,6,0.15)', border: '#d97706', color: 'light-dark(#92400e, #fbbf24)' },
-    4: { bg: 'rgba(59,130,246,0.12)', border: '#3b82f6', color: 'light-dark(#1e40af, #93c5fd)' },
-    5: { bg: 'rgba(139,92,246,0.12)', border: '#8b5cf6', color: 'light-dark(#5b21b6, #c4b5fd)' },
+    1: { bg: 'light-dark(rgba(217,119,6,0.2), rgba(245,158,11,0.2))', border: 'var(--accent-gold)', color: 'var(--accent-gold-light)' },
+    2: { bg: 'light-dark(rgba(100,116,139,0.15), rgba(148,163,184,0.15))', border: 'light-dark(#64748b, #94a3b8)', color: 'light-dark(#475569, #cbd5e1)' },
+    3: { bg: 'light-dark(rgba(180,83,9,0.15), rgba(217,119,6,0.15))', border: 'light-dark(#b45309, #d97706)', color: 'light-dark(#92400e, #fbbf24)' },
+    4: { bg: 'light-dark(rgba(37,99,235,0.12), rgba(59,130,246,0.12))', border: 'light-dark(#2563eb, #3b82f6)', color: 'light-dark(#1e40af, #93c5fd)' },
+    5: { bg: 'light-dark(rgba(124,58,237,0.12), rgba(139,92,246,0.12))', border: 'light-dark(#7c3aed, #8b5cf6)', color: 'light-dark(#5b21b6, #c4b5fd)' },
   };
   const barGrads = {
-    1: 'rgba(245,158,11,0.3), rgba(245,158,11,0.05)',
-    2: 'rgba(148,163,184,0.3), rgba(148,163,184,0.05)',
-    3: 'rgba(217,119,6,0.25), rgba(217,119,6,0.05)',
-    4: 'rgba(59,130,246,0.2), rgba(59,130,246,0.05)',
-    5: 'rgba(139,92,246,0.2), rgba(139,92,246,0.05)',
+    1: 'light-dark(rgba(217,119,6,0.45), rgba(245,158,11,0.3)), light-dark(rgba(217,119,6,0.1), rgba(245,158,11,0.05))',
+    2: 'light-dark(rgba(100,116,139,0.4), rgba(148,163,184,0.3)), light-dark(rgba(100,116,139,0.1), rgba(148,163,184,0.05))',
+    3: 'light-dark(rgba(180,83,9,0.4), rgba(217,119,6,0.25)), light-dark(rgba(180,83,9,0.1), rgba(217,119,6,0.05))',
+    4: 'light-dark(rgba(37,99,235,0.35), rgba(59,130,246,0.2)), light-dark(rgba(37,99,235,0.08), rgba(59,130,246,0.05))',
+    5: 'light-dark(rgba(124,58,237,0.35), rgba(139,92,246,0.2)), light-dark(rgba(124,58,237,0.08), rgba(139,92,246,0.05))',
   };
 
   podiumEl.innerHTML = order.map(p => {
@@ -443,8 +443,12 @@ export function initBreakdownSearch() {
 function buildMiniBoard(elId, data, valFn, subFn, color, count = 10) {
   const el = document.getElementById(elId);
   const dark = isDark();
-  const rankColors = ['rgba(245,158,11,0.2)', 'rgba(148,163,184,0.15)', 'rgba(217,119,6,0.15)',
-    dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'];
+  const rankColors = [
+    'light-dark(rgba(217,119,6,0.2), rgba(245,158,11,0.2))',
+    'light-dark(rgba(100,116,139,0.15), rgba(148,163,184,0.15))',
+    'light-dark(rgba(180,83,9,0.15), rgba(217,119,6,0.15))',
+    dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)',
+    dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'];
 
   const items = data.slice(0, count);
   const sp = state.spotlightPlayer;
@@ -473,7 +477,7 @@ function buildMiniBoard(elId, data, valFn, subFn, color, count = 10) {
     html += `
     <li class="clickable spotlight-injected" onclick="openModal('${p.player}')">
       <div class="mini-left">
-        <span class="mini-rank" style="background: rgba(245,158,11,0.15); color: var(--accent-gold);">${spFullIdx + 1}</span>
+        <span class="mini-rank" style="background: light-dark(rgba(217,119,6,0.15), rgba(245,158,11,0.15)); color: var(--accent-gold);">${spFullIdx + 1}</span>
         <span class="mini-name">${p.player}</span>
       </div>
       <div class="mini-right">
@@ -859,7 +863,12 @@ export function buildYearlyPoints() {
 // ===== 10. CLUB YEARLY OVERVIEW =====
 
 export function buildYearlyOverview() {
-  const yearlyStats = state.DATA.years.map(y => {
+  const years = state.DATA.years;
+  const currentYear = String(new Date().getFullYear());
+  const lastYearIsPartial = years.length > 0 && years[years.length - 1] === currentYear;
+  const lastCompleteIdx = lastYearIsPartial ? years.length - 2 : years.length - 1;
+
+  const yearlyStats = years.map(y => {
     const yearDates = Object.keys(state.DATA.attendance).filter(d => d.startsWith(y));
     return { year: y, tournaments: yearDates.length };
   });
@@ -868,7 +877,9 @@ export function buildYearlyOverview() {
     {
       label: 'Tournaments',
       data: yearlyStats.map(y => y.tournaments),
-      backgroundColor: COLORS.blue + 'bb',
+      backgroundColor: yearlyStats.map((_, i) =>
+        lastYearIsPartial && i === years.length - 1 ? COLORS.blue + '55' : COLORS.blue + 'bb'
+      ),
       borderRadius: 4,
       borderSkipped: false,
       yAxisID: 'y',
@@ -877,18 +888,29 @@ export function buildYearlyOverview() {
 
   const hasUnique = state.DATA.unique_players_per_year;
   if (hasUnique) {
+    const lineData = years.map(y => hasUnique[y] || 0);
     datasets.push({
       label: 'Unique Players',
-      data: state.DATA.years.map(y => hasUnique[y] || 0),
+      data: lineData,
       type: 'line',
       borderColor: COLORS.emerald,
       backgroundColor: COLORS.emerald + '22',
       borderWidth: 2.5,
-      pointRadius: 5,
-      pointBackgroundColor: COLORS.emerald,
+      pointRadius: lineData.map((_, i) => lastYearIsPartial && i === years.length - 1 ? 6 : 5),
+      pointBackgroundColor: lineData.map((_, i) =>
+        lastYearIsPartial && i === years.length - 1 ? 'transparent' : COLORS.emerald
+      ),
+      pointBorderWidth: lineData.map((_, i) =>
+        lastYearIsPartial && i === years.length - 1 ? 2 : 0
+      ),
+      pointBorderColor: COLORS.emerald,
       tension: 0.3,
       yAxisID: 'y1',
       fill: true,
+      segment: lastYearIsPartial ? {
+        borderDash: ctx => ctx.p1DataIndex >= lastCompleteIdx + 1 ? [6, 4] : [],
+        borderWidth: ctx => ctx.p1DataIndex >= lastCompleteIdx + 1 ? 2 : 2.5,
+      } : undefined,
     });
   }
 
@@ -910,12 +932,20 @@ export function buildYearlyOverview() {
 
   new Chart(document.getElementById('yearlyOverviewChart'), {
     type: 'bar',
-    data: { labels: state.DATA.years, datasets },
+    data: { labels: years.map(y => y === currentYear && lastYearIsPartial ? `${y}*` : y), datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: !!hasUnique, position: 'bottom', labels: { padding: 12 } }
+        legend: { display: !!hasUnique, position: 'bottom', labels: { padding: 12 } },
+        tooltip: {
+          callbacks: {
+            title: items => {
+              const label = items[0]?.label || '';
+              return label.endsWith('*') ? `${label.replace('*', '')} (year in progress)` : label;
+            }
+          }
+        }
       },
       scales
     }
