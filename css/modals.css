@@ -341,3 +341,39 @@
   font-size: 1.1rem;
   max-width: 400px;
 }
+
+/* Modal trend chart */
+.modal-trend {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--overlay-medium);
+}
+
+.modal-trend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modal-trend-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-trend-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.modal-trend-canvas {
+  width: 100%;
+  height: 220px;
+}

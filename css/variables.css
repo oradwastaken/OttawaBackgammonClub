@@ -1,5 +1,5 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   --bg-primary: light-dark(#f0f2f5, #0a0e1a);
   --bg-secondary: light-dark(#ffffff, #111827);
   --bg-card: light-dark(rgba(255, 255, 255, 0.85), rgba(17, 24, 39, 0.8));

@@ -85,7 +85,7 @@ state.js → (leaf node, no imports)
 `theme.js` exports utilities only (`isDark`, `applyChartDefaults`). The `toggleTheme()` function lives in `main.js` where both `theme.js` and `charts.js` are available — no cycle.
 
 ### Player Data Shape
-Each player object: `{ player, total_points, wins, losses, total_games, win_pct, tournaments, ppt, placed_count, placed_pct, placing_pts, participation_pct }`
+Each player object: `{ player, total_points, wins, losses, total_matches, win_pct, tournaments, ppt, placed_count, placed_pct, placing_pts, participation_pct }`
 
 ### CDN Dependencies
 - **Chart.js 4.4.7** — all chart rendering (loaded as classic script, `Chart` global)

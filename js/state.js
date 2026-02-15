@@ -10,6 +10,13 @@ export const state = {
   byPlaced: null,
   byAttendance: null,
   pendingParsedData: null,
+  selectedYears: null,    // null = "All Time", or Set of year strings e.g. new Set(["2026"])
+  minTournaments: 5,      // adjustable via slider (default matches minT)
+  cumulativeSelected: null, // Set of player names shown on cumulative chart (null = use defaults)
+  breakdownSelected: null,  // Set of player names shown on points breakdown chart (null = use defaults)
+  trendSelected: null,      // Set of player names shown on win % trend chart (null = use defaults)
+  trendWindowSize: 50,      // Rolling average window for trend chart (10-200 matches)
+  spotlightPlayer: null,    // string (player name) or null — set by spotlight search
 };
 
 export const minT = 5;
@@ -26,6 +33,10 @@ export const PALETTE = [
 ];
 
 export const PALETTE_BG = PALETTE.map(c => c + '33');
+
+export function toTitleCase(str) {
+  return str.replace(/\S+/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+}
 
 export function initials(name) {
   return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);

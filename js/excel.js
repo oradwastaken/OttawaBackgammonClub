@@ -1,3 +1,5 @@
+import { toTitleCase } from './state.js';
+
 // Excel parser — uses global XLSX from CDN
 
 export function parseExcelToData(workbook) {
@@ -35,6 +37,7 @@ export function parseExcelToData(workbook) {
   const tournamentDates = new Set();
   const playerMap = {};      // player -> { wins, losses, placing_pts, tournamentsSet, yearlyMap }
   const attendance = {};     // dateStr -> count
+  const tournamentHistory = {}; // player -> [{date, wins, losses}, ...]
 
   for (const row of dataRows) {
     if (!row || !row[dateCol] || !row[playerCol]) continue;
@@ -53,7 +56,7 @@ export function parseExcelToData(workbook) {
     }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) continue;
 
-    const name = String(row[playerCol]).trim();
+    const name = toTitleCase(String(row[playerCol]).trim());
     if (!name) continue;
 
     const wins = Number(row[winsCol]) || 0;
@@ -68,22 +71,30 @@ export function parseExcelToData(workbook) {
     attendance[dateStr]++;
 
     if (!playerMap[name]) {
-      playerMap[name] = { wins: 0, losses: 0, placing_pts: 0, tournamentsSet: new Set(), placed_dates: new Set(), yearlyMap: {} };
+      playerMap[name] = { wins: 0, losses: 0, placing_pts: 0, tournament_win_pts: 0, advancement_pts: 0, tournamentsSet: new Set(), placed_dates: new Set(), yearlyMap: {} };
     }
     const p = playerMap[name];
     p.wins += wins;
     p.losses += losses;
     p.placing_pts += placing;
+    if (placing === 4) p.tournament_win_pts += 4;
+    else if (placing > 0) p.advancement_pts += placing;
     p.tournamentsSet.add(dateStr);
     if (placing > 0) p.placed_dates.add(dateStr);
 
-    if (!p.yearlyMap[year]) p.yearlyMap[year] = { tournaments: new Set(), wins: 0, losses: 0, placing_pts: 0, placed: new Set() };
+    if (!p.yearlyMap[year]) p.yearlyMap[year] = { tournaments: new Set(), wins: 0, losses: 0, placing_pts: 0, tournament_win_pts: 0, advancement_pts: 0, placed: new Set() };
     const ym = p.yearlyMap[year];
     ym.tournaments.add(dateStr);
     ym.wins += wins;
     ym.losses += losses;
     ym.placing_pts += placing;
+    if (placing === 4) ym.tournament_win_pts += 4;
+    else if (placing > 0) ym.advancement_pts += placing;
     if (placing > 0) ym.placed.add(dateStr);
+
+    // Collect per-tournament history for rolling win % charts
+    if (!tournamentHistory[name]) tournamentHistory[name] = [];
+    tournamentHistory[name].push({ date: dateStr, wins, losses });
   }
 
   const total_tournaments = tournamentDates.size;
@@ -94,41 +105,42 @@ export function parseExcelToData(workbook) {
   // Build players array
   const playersArr = Object.entries(playerMap).map(([name, p]) => {
     const tournaments = p.tournamentsSet.size;
-    const total_games = p.wins + p.losses;
+    const total_matches = p.wins + p.losses;
     const total_points = p.wins + p.placing_pts;
-    const win_pct = total_games > 0 ? +((p.wins / total_games) * 100).toFixed(1) : 0;
+    const win_pct = total_matches > 0 ? +((p.wins / total_matches) * 100).toFixed(1) : 0;
     const ppt = tournaments > 0 ? +(total_points / tournaments).toFixed(2) : 0;
     const placed_count = p.placed_dates.size;
     const placed_pct = tournaments > 0 ? +((placed_count / tournaments) * 100).toFixed(1) : 0;
     const participation_pct = total_tournaments > 0 ? +((tournaments / total_tournaments) * 100).toFixed(1) : 0;
-    return { player: name, total_points, wins: p.wins, losses: p.losses, total_games, win_pct, tournaments, ppt, placed_count, placed_pct, placing_pts: p.placing_pts, participation_pct };
+    return { player: name, total_points, wins: p.wins, losses: p.losses, total_matches, win_pct, tournaments, ppt, placed_count, placed_pct, placing_pts: p.placing_pts, tournament_win_pts: p.tournament_win_pts, advancement_pts: p.advancement_pts, participation_pct };
   });
 
   // Sort by total_points desc for top 10 selection
   const sortedByPoints = [...playersArr].sort((a, b) => b.total_points - a.total_points);
   const top10Names = sortedByPoints.slice(0, 10).map(p => p.player);
 
-  // Build yearly_performance for top 10
+  // Build yearly_performance for ALL players (needed for year filtering)
   const yearly_performance = {};
-  for (const name of top10Names) {
-    const p = playerMap[name];
+  for (const [name, p] of Object.entries(playerMap)) {
     yearly_performance[name] = years.map(y => {
       const ym = p.yearlyMap[y];
-      if (!ym || ym.tournaments.size === 0) return { year: y, tournaments: 0, wins: 0, losses: 0, points: 0, ppt: 0, win_pct: 0 };
+      if (!ym || ym.tournaments.size === 0) return { year: y, tournaments: 0, wins: 0, losses: 0, points: 0, placing_pts: 0, placed_count: 0, ppt: 0, win_pct: 0 };
       const t = ym.tournaments.size;
       const pts = ym.wins + ym.placing_pts;
-      const games = ym.wins + ym.losses;
+      const matches = ym.wins + ym.losses;
       return {
         year: y, tournaments: t, wins: ym.wins, losses: ym.losses,
-        points: pts, ppt: t > 0 ? +(pts / t).toFixed(2) : 0,
-        win_pct: games > 0 ? +((ym.wins / games) * 100).toFixed(1) : 0
+        points: pts, placing_pts: ym.placing_pts, placed_count: ym.placed.size,
+        tournament_win_pts: ym.tournament_win_pts, advancement_pts: ym.advancement_pts,
+        ppt: t > 0 ? +(pts / t).toFixed(2) : 0,
+        win_pct: matches > 0 ? +((ym.wins / matches) * 100).toFixed(1) : 0
       };
     });
   }
 
-  // Build cumulative for top 10
+  // Build cumulative for all players (top 10 used as default selection)
   const cumulative = {};
-  for (const name of top10Names) {
+  for (const name of Object.keys(yearly_performance)) {
     let running = 0;
     cumulative[name] = years.map(y => {
       const yp = yearly_performance[name].find(yy => yy.year === y);
@@ -137,5 +149,21 @@ export function parseExcelToData(workbook) {
     });
   }
 
-  return { players: playersArr, total_tournaments, attendance, cumulative, yearly_performance, years };
+  // Count unique players per year
+  const unique_players_per_year = {};
+  for (const y of years) {
+    let count = 0;
+    for (const entries of Object.values(yearly_performance)) {
+      const yp = entries.find(e => e.year === y);
+      if (yp && yp.tournaments > 0) count++;
+    }
+    unique_players_per_year[y] = count;
+  }
+
+  // Sort each player's tournament history chronologically
+  for (const name in tournamentHistory) {
+    tournamentHistory[name].sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  return { players: playersArr, total_tournaments, attendance, cumulative, yearly_performance, years, unique_players_per_year, tournament_history: tournamentHistory };
 }

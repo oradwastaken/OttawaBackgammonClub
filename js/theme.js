@@ -1,7 +1,7 @@
 // Theme utilities — no chart imports (avoids circular deps)
 
 export function isDark() {
-  return document.documentElement.style.colorScheme !== 'light';
+  return document.documentElement.style.colorScheme === 'dark';
 }
 
 export function applyChartDefaults() {
@@ -26,7 +26,10 @@ export function applyChartDefaults() {
 
 export function restoreTheme() {
   const saved = localStorage.getItem('theme');
-  if (saved === 'light') {
+  if (saved === 'dark') {
+    document.documentElement.style.colorScheme = 'dark';
+    document.getElementById('themeToggle').innerHTML = '&#9790;';
+  } else {
     document.documentElement.style.colorScheme = 'light';
     document.getElementById('themeToggle').innerHTML = '&#9728;';
   }

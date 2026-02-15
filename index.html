@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/modals.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script type="module" src="js/main.js"></script>
 </head>
@@ -34,7 +35,41 @@
     <div class="header-badge">Est. 2017 &bull; Weekly Tournaments</div>
     <h1>Ottawa Area Backgammon Club</h1>
     <p id="header-subtitle">Player Statistics &amp; Performance Dashboard &mdash; 396 Tournaments &bull; 85 Players &bull; 2017 &ndash; 2026</p>
-    <p id="data-source-info" class="data-source-info">Data: Built-in defaults</p>
+    <p id="data-source-info" class="data-source-info">No data</p>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar card fade-in" id="filter-bar">
+    <div class="filter-group">
+      <span class="filter-label">Season:</span>
+      <div class="year-pills" id="year-pills"></div>
+      <button class="year-pill" id="all-time-btn" onclick="onAllTimeToggle()">All Time</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Min. Tournaments:</span>
+      <input type="range" class="min-t-slider" id="min-t-slider" min="1" max="50" value="5" oninput="onMinTChange(this.value)">
+      <span class="min-t-value" id="min-t-value">5</span>
+    </div>
+    <div class="filter-group spotlight-group">
+      <span class="filter-label">Find Player:</span>
+      <div class="spotlight-search-wrap">
+        <input type="text" id="spotlight-search" class="spotlight-search" placeholder="Type a name...">
+        <button class="spotlight-clear" id="spotlight-clear" title="Clear spotlight">&times;</button>
+        <div id="spotlight-dropdown" class="spotlight-dropdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spotlight Player Card -->
+  <div class="spotlight-card card fade-in" id="spotlight-card" style="display:none;" onclick="openSpotlightModal()">
+    <div class="spotlight-card-header">
+      <div class="spotlight-card-avatar" id="spotlight-avatar"></div>
+      <div>
+        <div class="spotlight-card-name" id="spotlight-name"></div>
+        <div class="spotlight-card-rank" id="spotlight-rank"></div>
+      </div>
+    </div>
+    <div class="spotlight-card-stats" id="spotlight-stats"></div>
   </div>
 
   <!-- Summary Stats -->
@@ -48,8 +83,8 @@
       <div class="label">Players</div>
     </div>
     <div class="summary-stat fade-in stagger-3" style="--stat-accent: var(--accent-emerald);">
-      <div class="number" id="stat-games">4,208</div>
-      <div class="label">Total Games</div>
+      <div class="number" id="stat-matches">4,208</div>
+      <div class="label">Total Matches</div>
     </div>
     <div class="summary-stat fade-in stagger-4" style="--stat-accent: var(--accent-purple);">
       <div class="number" id="stat-years">7</div>
@@ -62,7 +97,7 @@
     <div class="leaderboard-grid">
       <!-- Left: Podium + Table -->
       <div class="card fade-in" style="padding-bottom: 16px;">
-        <div class="card-title"><span class="dot" style="background: var(--accent-gold);"></span> All-Time Points Leaderboard</div>
+        <div class="card-title" id="leaderboard-title"><span class="dot" style="background: var(--accent-gold);"></span> All-Time Points Leaderboard</div>
         <div class="podium" id="podium"></div>
         <div class="table-rest">
           <div class="table-row table-header">
@@ -78,10 +113,16 @@
 
       <!-- Right: Horizontal bar chart -->
       <div class="card fade-in leaderboard-chart-wrap">
-        <div class="card-title"><span class="dot" style="background: var(--accent-blue);"></span> Top 10 Points Breakdown</div>
+        <div class="card-title"><span class="dot" style="background: var(--accent-blue);"></span> Points Breakdown</div>
+        <div class="cumulative-search-wrap">
+          <input type="text" id="breakdown-search" class="cumulative-search" placeholder="Add player...">
+          <div id="breakdown-dropdown" class="cumulative-dropdown"></div>
+        </div>
+        <div id="breakdown-chips" class="cumulative-chips"></div>
         <div class="chart-container" style="min-height: 400px;">
           <canvas id="pointsBreakdownChart"></canvas>
         </div>
+        <div style="font-size: 10px; color: var(--text-muted); margin-top: 8px;">Tournament Advancements = Semifinalist or Consolation Bracket Winner</div>
       </div>
     </div>
   </div>
@@ -109,12 +150,27 @@
     </div>
   </div>
 
-  <!-- Cumulative Points & Attendance Charts -->
-  <div class="charts-grid-2">
+  <!-- Cumulative Points -->
+  <div class="full-width">
     <div class="card fade-in">
       <div class="card-title"><span class="dot" style="background: var(--accent-gold);"></span> Cumulative Points Over Years</div>
+      <div class="cumulative-search-wrap">
+        <input type="text" id="cumulative-search" class="cumulative-search" placeholder="Add player...">
+        <div id="cumulative-dropdown" class="cumulative-dropdown"></div>
+      </div>
+      <div id="cumulative-chips" class="cumulative-chips"></div>
       <div class="chart-container">
         <canvas id="cumulativeChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Club Growth & Weekly Attendance -->
+  <div class="charts-grid-2">
+    <div class="card fade-in">
+      <div class="card-title"><span class="dot" style="background: var(--accent-blue);"></span> Club Growth &mdash; Yearly Overview</div>
+      <div class="chart-container">
+        <canvas id="yearlyOverviewChart"></canvas>
       </div>
     </div>
     <div class="card fade-in">
@@ -125,53 +181,46 @@
     </div>
   </div>
 
-  <!-- Win Rate & PPT Distribution -->
-  <div class="charts-grid-2">
+  <!-- Yearly Top 5 Table -->
+  <div class="full-width">
     <div class="card fade-in">
-      <div class="card-title"><span class="dot" style="background: var(--accent-emerald);"></span> Win Rate Distribution</div>
-      <div class="mini-board-note" style="font-size: 10px; color: var(--text-muted); margin-bottom: 8px; margin-top: -12px;">Players with 5+ tournaments</div>
-      <div class="chart-container" style="min-height: 240px;">
-        <canvas id="winRateDistChart"></canvas>
-      </div>
-    </div>
-    <div class="card fade-in">
-      <div class="card-title"><span class="dot" style="background: var(--accent-purple);"></span> Points Per Tournament Distribution</div>
-      <div class="mini-board-note" style="font-size: 10px; color: var(--text-muted); margin-bottom: 8px; margin-top: -12px;">Players with 5+ tournaments</div>
-      <div class="chart-container" style="min-height: 240px;">
-        <canvas id="pptDistChart"></canvas>
-      </div>
+      <div class="card-title"><span class="dot" style="background: var(--accent-rose);"></span> Yearly Top 5 Players</div>
+      <div id="yearlyPointsTable" class="yearly-top5-wrap"></div>
     </div>
   </div>
 
-  <!-- Year-over-Year + Attendance by Year -->
-  <div class="charts-grid-2">
-    <div class="card fade-in">
-      <div class="card-title"><span class="dot" style="background: var(--accent-rose);"></span> Yearly Points &mdash; Top 5 Players</div>
-      <div class="chart-container">
-        <canvas id="yearlyPointsChart"></canvas>
-      </div>
-    </div>
-    <div class="card fade-in">
-      <div class="card-title"><span class="dot" style="background: var(--accent-blue);"></span> Club Growth &mdash; Yearly Overview</div>
-      <div class="chart-container">
-        <canvas id="yearlyOverviewChart"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- Win/Loss Ratio Top 10 & Head-to-Head Radar -->
-  <div class="charts-grid-2">
+  <!-- Win/Loss Ratio Top 10 -->
+  <div class="full-width">
     <div class="card fade-in">
       <div class="card-title"><span class="dot" style="background: var(--accent-orange);"></span> Win vs Loss &mdash; Top 10 Players</div>
       <div class="chart-container">
         <canvas id="winLossChart"></canvas>
       </div>
     </div>
+  </div>
+
+  <!-- Win % Trend Over Time -->
+  <div class="full-width">
     <div class="card fade-in">
-      <div class="card-title"><span class="dot" style="background: var(--accent-gold);"></span> Player Comparison Radar</div>
-      <div class="filter-row" id="radar-filters"></div>
-      <div class="chart-container">
-        <canvas id="radarChart"></canvas>
+      <div class="card-title"><span class="dot" style="background: var(--accent-emerald);"></span> Win % Trend Over Time</div>
+      <div class="trend-controls">
+        <div class="cumulative-search-wrap" style="max-width: 300px;">
+          <input type="text" id="trend-search" class="cumulative-search" placeholder="Add player...">
+          <div id="trend-dropdown" class="cumulative-dropdown"></div>
+        </div>
+        <div class="trend-slider-wrap" id="trend-slider-wrap">
+          <span class="trend-slider-label">Rolling window:</span>
+          <input type="range" class="trend-slider" id="trend-slider" min="10" max="200" value="50" oninput="onTrendWindowChange(this.value)">
+          <span class="trend-slider-value" id="trend-slider-value">50</span>
+          <span class="trend-slider-unit">matches</span>
+        </div>
+      </div>
+      <div id="trend-chips" class="cumulative-chips"></div>
+      <div id="trend-fallback-note" class="trend-fallback-note" style="display:none">
+        Showing yearly averages &mdash; upload Excel for per-tournament detail.
+      </div>
+      <div class="chart-container" style="min-height: 360px;">
+        <canvas id="trendChart"></canvas>
       </div>
     </div>
   </div>
@@ -190,6 +239,19 @@
     <div class="modal-stats" id="modal-stats"></div>
     <div class="modal-chart">
       <canvas id="modalChart"></canvas>
+    </div>
+    <div class="modal-trend" id="modal-trend" style="display:none">
+      <div class="modal-trend-header">
+        <span class="modal-trend-title">Rolling Win %</span>
+        <div class="modal-trend-controls">
+          <input type="range" class="trend-slider" id="modal-trend-slider" min="10" max="200" value="50" oninput="onModalTrendSlider(this.value)">
+          <span class="trend-slider-value" id="modal-trend-slider-value">50</span>
+          <span class="trend-slider-unit">matches</span>
+        </div>
+      </div>
+      <div class="modal-trend-canvas">
+        <canvas id="modalTrendChart"></canvas>
+      </div>
     </div>
   </div>
 </div>
