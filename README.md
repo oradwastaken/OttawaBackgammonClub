@@ -1,6 +1,6 @@
 # Ottawa Area Backgammon Club Dashboard
 
-Live site: `https://YOUR-USERNAME.github.io/OttawaBackgammonClub/`
+Live site: `https://oradwastaken.github.io/OttawaBackgammonClub/`
 
 ## Updating the Data
 
