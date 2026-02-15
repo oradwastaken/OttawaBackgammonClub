@@ -1,0 +1,36 @@
+:root {
+  color-scheme: dark;
+  --bg-primary: light-dark(#f0f2f5, #0a0e1a);
+  --bg-secondary: light-dark(#ffffff, #111827);
+  --bg-card: light-dark(rgba(255, 255, 255, 0.85), rgba(17, 24, 39, 0.8));
+  --bg-card-hover: light-dark(rgba(243, 244, 246, 0.95), rgba(31, 41, 55, 0.9));
+  --border-card: light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.06));
+  --text-primary: light-dark(#1e293b, #f1f5f9);
+  --text-secondary: light-dark(#475569, #94a3b8);
+  --text-muted: light-dark(#64748b, #64748b);
+  --accent-gold: light-dark(#d97706, #f59e0b);
+  --accent-gold-light: light-dark(#b45309, #fbbf24);
+  --accent-blue: light-dark(#2563eb, #3b82f6);
+  --accent-cyan: light-dark(#0891b2, #06b6d4);
+  --accent-emerald: light-dark(#059669, #10b981);
+  --accent-purple: light-dark(#7c3aed, #8b5cf6);
+  --accent-rose: light-dark(#e11d48, #f43f5e);
+  --accent-orange: light-dark(#ea580c, #f97316);
+  --glow-gold: rgba(245, 158, 11, 0.15);
+  --glow-blue: rgba(59, 130, 246, 0.15);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: light-dark(0 4px 30px rgba(0, 0, 0, 0.12), 0 4px 30px rgba(0, 0, 0, 0.4));
+  --overlay-weak: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03));
+  --overlay-subtle: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
+  --overlay-faint: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+  --overlay-light: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.06));
+  --overlay-medium: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.08));
+  --overlay-hover: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+  --overlay-strong: light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.12));
+  --chart-grid: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.04));
+  --chart-border: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.06));
+  --modal-backdrop: light-dark(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  --scrollbar-thumb: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.1));
+  --scrollbar-thumb-hover: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.2));
+}
