@@ -1042,11 +1042,19 @@ export function buildTrendChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
+      interaction: { mode: 'nearest', intersect: false },
       plugins: {
         legend: { position: 'bottom', labels: { padding: 16, font: { size: 10 } } },
         tooltip: {
           callbacks: {
+            title: (items) => {
+              if (!items.length) return '';
+              const raw = items[0].raw?.x;
+              if (raw instanceof Date || (typeof raw === 'string' && raw.includes('-'))) {
+                return new Date(raw).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+              }
+              return String(raw);
+            },
             label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
           }
         }
