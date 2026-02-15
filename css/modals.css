@@ -101,7 +101,7 @@
 
 .modal-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin-bottom: 24px;
 }
@@ -424,7 +424,7 @@
     border-radius: 12px;
   }
   .modal h2 { font-size: 1.3rem; padding-right: 32px; }
-  .modal-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .modal-stats { grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .modal-stat { padding: 12px 8px; }
   .modal-stat .ms-val { font-size: 1.1rem; }
   .modal-chart { height: 200px; }

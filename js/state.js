@@ -11,7 +11,7 @@ export const state = {
   byAttendance: null,
   pendingParsedData: null,
   selectedYears: null,    // null = "All Time", or Set of year strings e.g. new Set(["2026"])
-  minTournaments: 5,      // adjustable via slider (default matches minT)
+  minTournaments: 1,      // adjustable via slider (set dynamically on init/filter change)
   cumulativeSelected: null, // Set of player names shown on cumulative chart (null = use defaults)
   breakdownSelected: null,  // Set of player names shown on points breakdown chart (null = use defaults)
   trendSelected: null,      // Set of player names shown on win % trend chart (null = use defaults)
@@ -19,7 +19,10 @@ export const state = {
   spotlightPlayer: null,    // string (player name) or null — set by spotlight search
 };
 
-export const minT = 5;
+/** Compute a sensible default: 1/3 of tournaments, capped at 8, minimum 1 */
+export function getDefaultMinTournaments(totalTournaments) {
+  return Math.max(1, Math.min(Math.floor(totalTournaments / 3), 8));
+}
 
 export const COLORS = {
   gold: '#f59e0b', blue: '#3b82f6', cyan: '#06b6d4', emerald: '#10b981',

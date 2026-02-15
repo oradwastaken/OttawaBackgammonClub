@@ -129,10 +129,16 @@ export function buildPodium() {
         <div class="podium-avatar" style="background:${ac.bg};border-color:${ac.border};color:${ac.color};width:${avatarSize}px;height:${avatarSize}px;font-size:${fontSize}px;">${crown}${initials(p.player)}</div>
         <div class="podium-name">${p.player}</div>
         <div class="podium-pts">${Math.round(p.total_points)} pts</div>
-        <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> MW · <span style="color:${COLORS.gold}">${getBreakdownData(p).tournamentWins}</span> TW · <span style="color:${COLORS.emerald}">${getBreakdownData(p).advancements}</span> TA</div>
+        <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> MW · <span style="color:${COLORS.gold}">${Math.round(getBreakdownData(p).tournamentWins / 4)}</span> TW · <span style="color:${COLORS.emerald}">${Math.round(getBreakdownData(p).advancements / 2)}</span> TA</div>
         <div class="podium-bar" style="height:${barHeights[rank]}px;background:linear-gradient(180deg,${barGrads[rank]});"></div>
       </div>`;
   }).join('');
+
+  // Legend for abbreviations
+  const legendEl = document.getElementById('podium-legend');
+  if (legendEl) {
+    legendEl.innerHTML = `<span style="color:${COLORS.blue}">MW</span> Match Wins · <span style="color:${COLORS.gold}">TW</span> Tournament Wins · <span style="color:${COLORS.emerald}">TA</span> Tournament Advancements`;
+  }
 
   // Spotlight: highlight matching podium slot
   if (state.spotlightPlayer) {
@@ -146,9 +152,19 @@ export function buildPodium() {
 
 // ===== 2. LEADERBOARD TABLE (6-10) =====
 
+let leaderboardExpanded = false;
+const LEADERBOARD_PAGE = 10; // extra rows per expansion
+
+export function toggleLeaderboardExpand() {
+  leaderboardExpanded = !leaderboardExpanded;
+  buildLeaderboardTable();
+}
+
 export function buildLeaderboardTable() {
-  const rest = state.byPoints.slice(5, 10);
+  const endIdx = leaderboardExpanded ? Math.min(5 + LEADERBOARD_PAGE * 2, state.byPoints.length) : 10;
+  const rest = state.byPoints.slice(5, endIdx);
   const el = document.getElementById('leaderboard-table');
+
   el.innerHTML = rest.map((p, i) => `
     <div class="table-row clickable" onclick="openModal('${p.player}')">
       <span class="rank">${i + 6}</span>
@@ -158,11 +174,22 @@ export function buildLeaderboardTable() {
       <span class="stat-val" style="color: var(--accent-cyan);">${p.ppt}</span>
     </div>`).join('');
 
+  // Show more / Show less toggle
+  if (state.byPoints.length > 10) {
+    const label = leaderboardExpanded ? 'Show less' : `Show all ${state.byPoints.length} players`;
+    el.insertAdjacentHTML('beforeend', `
+      <div class="table-row leaderboard-toggle clickable" onclick="toggleLeaderboardExpand()">
+        <span class="rank">${leaderboardExpanded ? '−' : '+'}</span>
+        <span class="name" style="color: var(--text-muted); font-style: italic;">${label}</span>
+        <span class="stat-val"></span><span class="stat-val"></span><span class="stat-val"></span>
+      </div>`);
+  }
+
   // Spotlight: highlight or inject
   if (state.spotlightPlayer) {
-    const inTop10 = state.byPoints.slice(0, 10).some(p => p.player === state.spotlightPlayer);
-    if (inTop10) {
-      el.querySelectorAll('.table-row').forEach(row => {
+    const inVisible = state.byPoints.slice(0, endIdx).some(p => p.player === state.spotlightPlayer);
+    if (inVisible) {
+      el.querySelectorAll('.table-row:not(.leaderboard-toggle)').forEach(row => {
         if (row.querySelector('.name')?.textContent === state.spotlightPlayer) {
           row.classList.add('spotlight-active');
         }
@@ -172,14 +199,21 @@ export function buildLeaderboardTable() {
       if (idx !== -1) {
         const p = state.byPoints[idx];
         const escaped = p.player.replace(/'/g, "\\'");
-        el.insertAdjacentHTML('beforeend', `
+        // Insert before the toggle button
+        const toggle = el.querySelector('.leaderboard-toggle');
+        const html = `
           <div class="table-row clickable spotlight-injected" onclick="openModal('${escaped}')">
             <span class="rank">${idx + 1}</span>
             <span class="name">${p.player}</span>
             <span class="stat-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</span>
             <span class="stat-val" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
             <span class="stat-val" style="color: var(--accent-cyan);">${p.ppt}</span>
-          </div>`);
+          </div>`;
+        if (toggle) {
+          toggle.insertAdjacentHTML('beforebegin', html);
+        } else {
+          el.insertAdjacentHTML('beforeend', html);
+        }
       }
     }
   }
@@ -524,6 +558,12 @@ export function buildCumulativeChart() {
     state.cumulativeSelected.add(state.spotlightPlayer);
   }
 
+  // Detect if the last year in the dataset is the current (incomplete) year
+  const currentYear = String(new Date().getFullYear());
+  const lastYearIsPartial = years.length > 0 && years[years.length - 1] === currentYear;
+  // Index of the last complete year (the segment *to* this index is the last solid one)
+  const lastCompleteIdx = lastYearIsPartial ? years.length - 2 : years.length - 1;
+
   const datasets = [...state.cumulativeSelected].map((name, i) => {
     const rawData = getCumulativeData(name);
     if (!rawData) return null;
@@ -536,31 +576,55 @@ export function buildCumulativeChart() {
 
     const isSp = name === state.spotlightPlayer;
     const color = isSp ? COLORS.gold : PALETTE[i % PALETTE.length];
+    const bw = isSp ? 4 : 2.5;
+    const pr = isSp ? 6 : 4;
     return {
       label: firstName(name),
       data,
       borderColor: color,
       backgroundColor: color + '15',
-      borderWidth: isSp ? 4 : 2.5,
-      pointRadius: isSp ? 6 : 4,
+      borderWidth: bw,
+      pointRadius: data.map((_, idx) => idx === years.length - 1 && lastYearIsPartial ? pr + 1 : pr),
       pointHoverRadius: isSp ? 9 : 7,
-      pointBackgroundColor: color,
+      pointBackgroundColor: data.map((_, idx) =>
+        idx === years.length - 1 && lastYearIsPartial ? 'transparent' : color
+      ),
+      pointBorderWidth: data.map((_, idx) =>
+        idx === years.length - 1 && lastYearIsPartial ? 2 : 0
+      ),
+      pointBorderColor: color,
       tension: 0.3,
       fill: false,
       spanGaps: true,
       order: isSp ? 0 : 1, // draw spotlight on top
+      // Dash the line segment leading into the current (incomplete) year
+      segment: lastYearIsPartial ? {
+        borderDash: ctx => ctx.p1DataIndex >= lastCompleteIdx + 1 ? [6, 4] : [],
+        borderWidth: ctx => ctx.p1DataIndex >= lastCompleteIdx + 1 ? bw * 0.8 : bw,
+      } : undefined,
     };
   }).filter(Boolean);
 
   cumulativeChartInstance = new Chart(document.getElementById('cumulativeChart'), {
     type: 'line',
-    data: { labels: years, datasets },
+    data: {
+      labels: years.map(y => y === currentYear && lastYearIsPartial ? `${y}*` : y),
+      datasets
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'bottom', labels: { padding: 16, font: { size: 10 } } }
+        legend: { position: 'bottom', labels: { padding: 16, font: { size: 10 } } },
+        tooltip: {
+          callbacks: {
+            title: items => {
+              const label = items[0]?.label || '';
+              return label.endsWith('*') ? `${label.replace('*', '')} (year in progress)` : label;
+            }
+          }
+        }
       },
       scales: {
         y: { title: { display: true, text: 'Cumulative Points' } }
@@ -756,7 +820,11 @@ export function buildYearlyPoints() {
   ranks.forEach(r => { html += `<th>${r}</th>`; });
   html += '</tr></thead><tbody>';
 
+  const currentYear = new Date().getFullYear().toString();
   for (const { year, top5 } of yearData) {
+    if (year === currentYear) {
+      html += `<tr class="yt5-separator"><td colspan="${ranks.length + 1}"></td></tr>`;
+    }
     html += `<tr><td class="yt5-year">${year}</td>`;
     for (let i = 0; i < 5; i++) {
       const p = top5[i];

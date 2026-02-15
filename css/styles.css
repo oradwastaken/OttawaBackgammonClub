@@ -232,6 +232,15 @@ body::before {
   transition: height 0.6s ease;
 }
 
+.podium-legend {
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
 /* Podium bar heights/gradients are set via inline styles in buildPodium() */
 
 .crown {
@@ -294,6 +303,17 @@ body::before {
 }
 
 .table-header .stat-val { font-weight: 600; }
+
+.leaderboard-toggle {
+  border-top: 1px dashed var(--overlay-medium);
+  margin-top: 4px;
+}
+
+.leaderboard-toggle .rank {
+  color: var(--accent-blue);
+  font-size: 16px;
+  font-weight: 800;
+}
 
 /* Theme toggle */
 .theme-toggle {
@@ -893,6 +913,11 @@ body::before {
 
 .yearly-top5 tbody tr:last-child td {
   border-bottom: none;
+}
+
+.yearly-top5 .yt5-separator td {
+  padding: 0;
+  border-bottom: 2px dashed var(--text-muted);
 }
 
 .yearly-top5 tbody tr:hover td {

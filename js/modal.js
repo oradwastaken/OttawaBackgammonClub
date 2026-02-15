@@ -1,4 +1,5 @@
 import { state, COLORS } from './state.js';
+import { getBreakdownData } from './charts.js';
 
 let modalChart = null;
 let modalTrendChart = null;
@@ -75,12 +76,18 @@ function renderModalStats() {
   document.getElementById('modal-name').textContent = p.player;
   document.getElementById('modal-subtitle').textContent = `${p.tournaments} tournaments attended | ${p.total_matches} matches played`;
 
+  const bd = getBreakdownData(p);
+  const twCount = Math.round(bd.tournamentWins / 4);
+  const taCount = Math.round(bd.advancements / 2);
+
   document.getElementById('modal-stats').innerHTML = `
     <div class="modal-stat"><div class="ms-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</div><div class="ms-label">Total Points</div></div>
     <div class="modal-stat"><div class="ms-val" style="color: var(--accent-emerald);">${p.win_pct}%</div><div class="ms-label">Win Rate</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-cyan);">${p.ppt}</div><div class="ms-label">Points/Tournament</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-blue);">${p.wins}</div><div class="ms-label">Total Wins</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-rose);">${p.losses}</div><div class="ms-label">Total Losses</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-cyan);">${p.ppt}</div><div class="ms-label">Points/Tourn.</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-blue);">${p.wins}</div><div class="ms-label">Match Wins</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-rose);">${p.losses}</div><div class="ms-label">Losses</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-gold);">${twCount}</div><div class="ms-label">Tourn. Wins</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-emerald);">${taCount}</div><div class="ms-label">Advancements</div></div>
     <div class="modal-stat"><div class="ms-val" style="color: var(--accent-purple);">${p.placed_pct}%</div><div class="ms-label">Placed Rate</div></div>
   `;
 }

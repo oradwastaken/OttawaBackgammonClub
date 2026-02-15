@@ -47,8 +47,8 @@
     </div>
     <div class="filter-group">
       <span class="filter-label">Min. Tournaments:</span>
-      <input type="range" class="min-t-slider" id="min-t-slider" min="1" max="50" value="5" oninput="onMinTChange(this.value)">
-      <span class="min-t-value" id="min-t-value">5</span>
+      <input type="range" class="min-t-slider" id="min-t-slider" min="1" max="50" value="1" oninput="onMinTChange(this.value)">
+      <span class="min-t-value" id="min-t-value">1</span>
     </div>
     <div class="filter-group spotlight-group">
       <span class="filter-label">Find Player:</span>
@@ -99,6 +99,7 @@
       <div class="card fade-in" style="padding-bottom: 16px;">
         <div class="card-title" id="leaderboard-title"><span class="dot" style="background: var(--accent-gold);"></span> All-Time Points Leaderboard</div>
         <div class="podium" id="podium"></div>
+        <div class="podium-legend" id="podium-legend"></div>
         <div class="table-rest">
           <div class="table-row table-header">
             <span class="rank">#</span>

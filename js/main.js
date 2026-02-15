@@ -1,7 +1,8 @@
-import { state } from './state.js';
+import { state, getDefaultMinTournaments } from './state.js';
 import { loadData, applyFilters, deriveData, getFilteredTournamentCount, updateDataSourceInfo } from './data.js';
 import { restoreTheme, applyChartDefaults, isDark } from './theme.js';
-import { rebuildCharts, rebuildAll, buildPodium, buildLeaderboardTable, buildPointsBreakdown,
+import { rebuildCharts, rebuildAll, buildPodium, buildLeaderboardTable, toggleLeaderboardExpand,
+         buildPointsBreakdown,
          buildAllMiniBoards, buildCumulativeChart, buildAttendanceChart,
          buildYearlyPoints, buildYearlyOverview, buildWinLossChart,
          animateNumber, getFilterLabel,
@@ -23,6 +24,7 @@ Object.assign(window, {
   removeBreakdownPlayer,
   removeTrendPlayer,
   onTrendWindowChange,
+  toggleLeaderboardExpand,
   onModalTrendSlider,
   onModalYearToggle,
   onModalYearsExpand,
@@ -78,12 +80,26 @@ function buildYearPills() {
 
 window.buildYearPills = buildYearPills;
 
+/** Recalculate the default minTournaments based on current filter and update slider */
+function recalcMinTournaments() {
+  const total = getFilteredTournamentCount();
+  state.minTournaments = getDefaultMinTournaments(total);
+  const slider = document.getElementById('min-t-slider');
+  const valueEl = document.getElementById('min-t-value');
+  if (slider) {
+    slider.max = Math.max(total, 1);
+    slider.value = state.minTournaments;
+  }
+  if (valueEl) valueEl.textContent = state.minTournaments;
+}
+
 function initFilters() {
   // Default to latest year
   const years = state.DATA.years;
   const latestYear = years[years.length - 1];
   state.selectedYears = new Set([latestYear]);
 
+  recalcMinTournaments();
   buildYearPills();
   updateFilterUI();
 }
@@ -111,6 +127,7 @@ function onYearToggle(year) {
   } else {
     state.selectedYears.add(year);
   }
+  recalcMinTournaments();
   updateFilterUI();
   rebuildAll();
 }
@@ -118,6 +135,7 @@ window.onYearToggle = onYearToggle;
 
 function onAllTimeToggle() {
   state.selectedYears = null;
+  recalcMinTournaments();
   updateFilterUI();
   rebuildAll();
 }
