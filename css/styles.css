@@ -618,6 +618,8 @@ body::before {
   margin-bottom: 24px;
   padding: 16px 24px;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
 }
 
 .filter-group {
