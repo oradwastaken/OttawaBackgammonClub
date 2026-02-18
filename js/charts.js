@@ -98,10 +98,16 @@ export function animateNumber(el, target, duration = 1200) {
 export function buildPodium() {
   const top5 = state.byPoints.slice(0, 5);
   if (!top5.length) return;
-  // Left to right: 1st, 2nd, 3rd, 4th, 5th
   const order = top5;
   const podiumEl = document.getElementById('podium');
-  const barHeights = { 1: 110, 2: 88, 3: 70, 4: 55, 5: 44 };
+
+  // Bar heights: 1st pinned to MAX, last pinned to MIN, others interpolated by points
+  const topPts = Math.round(top5[0].total_points);
+  const botPts = Math.round(top5[top5.length - 1].total_points);
+  const ptsRange = topPts - botPts;
+  const MIN_BAR = 30;
+  const MAX_BAR = 110;
+
   const avatarColors = {
     1: { bg: 'light-dark(rgba(217,119,6,0.2), rgba(245,158,11,0.2))', border: 'var(--accent-gold)', color: 'var(--accent-gold-light)' },
     2: { bg: 'light-dark(rgba(100,116,139,0.15), rgba(148,163,184,0.15))', border: 'light-dark(#64748b, #94a3b8)', color: 'light-dark(#475569, #cbd5e1)' },
@@ -117,20 +123,24 @@ export function buildPodium() {
     5: 'light-dark(rgba(124,58,237,0.35), rgba(139,92,246,0.2)), light-dark(rgba(124,58,237,0.08), rgba(139,92,246,0.05))',
   };
 
-  podiumEl.innerHTML = order.map(p => {
-    const rank = top5.indexOf(p) + 1;
+  podiumEl.innerHTML = order.map((p, i) => {
+    const rank = competitionRank(state.byPoints, i, 'total_points');
     const crown = rank === 1 ? '<span class="crown">&#9813;</span>' : '';
-    const ac = avatarColors[rank];
+    const colorKey = Math.min(rank, 5);
+    const ac = avatarColors[colorKey];
     const isFirst = rank === 1;
     const avatarSize = isFirst ? 68 : 56;
     const fontSize = isFirst ? 22 : 18;
+    // Bar height: interpolate between MIN_BAR and MAX_BAR based on position in points range
+    const pts = Math.round(p.total_points);
+    const barH = ptsRange > 0 ? MIN_BAR + ((pts - botPts) / ptsRange) * (MAX_BAR - MIN_BAR) : MAX_BAR;
     return `
       <div class="podium-slot clickable" onclick="openModal('${p.player}')">
         <div class="podium-avatar" style="background:${ac.bg};border-color:${ac.border};color:${ac.color};width:${avatarSize}px;height:${avatarSize}px;font-size:${fontSize}px;">${crown}${initials(p.player)}</div>
         <div class="podium-name">${p.player}</div>
         <div class="podium-pts">${Math.round(p.total_points)} pts</div>
         <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> MW · <span style="color:${COLORS.gold}">${Math.round(getBreakdownData(p).tournamentWins / 4)}</span> TW · <span style="color:${COLORS.emerald}">${Math.round(getBreakdownData(p).advancements / 2)}</span> TA</div>
-        <div class="podium-bar" style="height:${barHeights[rank]}px;background:linear-gradient(180deg,${barGrads[rank]});"></div>
+        <div class="podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${barGrads[colorKey]});"></div>
       </div>`;
   }).join('');
 
