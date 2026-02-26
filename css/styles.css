@@ -854,6 +854,12 @@ body::before {
   color: var(--accent-rose);
 }
 
+.recap-mover-arrow.new { color: var(--accent-blue); }
+.recap-mover-badge.new {
+  background: light-dark(rgba(59, 130, 246, 0.12), rgba(96, 165, 250, 0.12));
+  color: var(--accent-blue);
+}
+
 .recap-month-meta {
   font-size: 11px;
   color: var(--text-muted);

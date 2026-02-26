@@ -1378,6 +1378,18 @@ function getMonthlyRecapData(targetMonth) {
   }
   movers.sort((a, b) => b.change - a.change);
 
+  // New members: players whose first-ever tournament falls within this month
+  const newMembers = [];
+  for (const name of Object.keys(monthStats)) {
+    const history = th[name];
+    if (!history || !history.length) continue;
+    const firstDate = history.reduce((earliest, e) => e.date < earliest ? e.date : earliest, history[0].date);
+    if (firstDate.startsWith(targetMonth)) {
+      const ms = monthStats[name];
+      newMembers.push({ name, wl: `${ms.wins}W-${ms.losses}L` });
+    }
+  }
+
   return {
     month: targetMonth,
     monthLabel: `${MONTH_NAMES[mo - 1]} ${yr}`,
@@ -1386,6 +1398,7 @@ function getMonthlyRecapData(targetMonth) {
     podium,
     movers,
     placers,
+    newMembers,
   };
 }
 
@@ -1477,7 +1490,7 @@ export function buildMonthlyRecap() {
   const climbers = recap.movers.filter(m => m.change > 0).slice(0, 4);
   let moversHtml = '';
   if (climbers.length) {
-    moversHtml = `<div class="recap-movers-title">Yearly Climbers</div>`;
+    moversHtml = `<div class="recap-movers-title">Leaderboard Climbers</div>`;
     moversHtml += climbers.map(m => {
       const escaped = m.name.replace(/'/g, "\\'");
       return `
@@ -1490,6 +1503,21 @@ export function buildMonthlyRecap() {
     }).join('');
   }
 
+  let newMembersHtml = '';
+  if (recap.newMembers.length) {
+    newMembersHtml = `<div class="recap-movers-title" style="${moversHtml ? 'margin-top: 12px;' : ''}">New Members</div>`;
+    newMembersHtml += recap.newMembers.map(m => {
+      const escaped = m.name.replace(/'/g, "\\'");
+      return `
+        <div class="recap-mover-row clickable" onclick="openModal('${escaped}')">
+          <span class="recap-mover-arrow new">&#9679;</span>
+          <span class="recap-mover-name">${m.name}</span>
+          <span class="recap-mover-detail"><span title="Wins - Losses">${m.wl}</span></span>
+          <span class="recap-mover-badge new">NEW</span>
+        </div>`;
+    }).join('');
+  }
+
   content.innerHTML = `
     <div>
       <div class="recap-podium">${podiumHtml}</div>
@@ -1497,6 +1525,6 @@ export function buildMonthlyRecap() {
     </div>
     <div class="recap-lists">
       <div class="recap-movers">${placersHtml}</div>
-      <div class="recap-movers">${moversHtml}</div>
+      <div class="recap-movers">${moversHtml}${newMembersHtml}</div>
     </div>`;
 }
