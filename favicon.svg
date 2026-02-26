@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Trophy cup -->
+  <path d="M16 8h32v4c0 14-6 24-16 28-10-4-16-14-16-28V8z" fill="#F5A623"/>
+  <path d="M16 8h32v4c0 14-6 24-16 28-10-4-16-14-16-28V8z" fill="none" stroke="#D4891A" stroke-width="1.5"/>
+  <!-- Trophy rim -->
+  <rect x="14" y="6" width="36" height="4" rx="2" fill="#F5C563"/>
+  <!-- Left handle -->
+  <path d="M16 14c-6 0-10 4-10 10s4 10 8 10h2" fill="none" stroke="#D4891A" stroke-width="3" stroke-linecap="round"/>
+  <!-- Right handle -->
+  <path d="M48 14c6 0 10 4 10 10s-4 10-8 10h-2" fill="none" stroke="#D4891A" stroke-width="3" stroke-linecap="round"/>
+  <!-- Backgammon triangle inside trophy -->
+  <polygon points="32,14 24,32 40,32" fill="#2A5C3B"/>
+  <!-- Checker circle on the triangle -->
+  <circle cx="32" cy="26" r="5" fill="#E8E0D0" stroke="#B8A88A" stroke-width="1"/>
+  <!-- Trophy stem -->
+  <rect x="28" y="40" width="8" height="8" rx="1" fill="#D4891A"/>
+  <!-- Trophy base -->
+  <rect x="20" y="48" width="24" height="5" rx="2" fill="#F5A623" stroke="#D4891A" stroke-width="1"/>
+  <rect x="22" y="53" width="20" height="4" rx="2" fill="#D4891A"/>
+</svg>

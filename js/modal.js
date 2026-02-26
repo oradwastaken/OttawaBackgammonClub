@@ -82,13 +82,13 @@ function renderModalStats() {
 
   document.getElementById('modal-stats').innerHTML = `
     <div class="modal-stat"><div class="ms-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</div><div class="ms-label">Total Points</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-emerald);">${p.win_pct}%</div><div class="ms-label">Win Rate</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-cyan);">${p.ppt}</div><div class="ms-label">Points/Tourn.</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-blue);">${p.wins}</div><div class="ms-label">Match Wins</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-emerald);">${p.win_pct}%</div><div class="ms-label" title="Win Percentage">Win Rate</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-cyan);">${p.ppt}</div><div class="ms-label" title="Points Per Tournament">Points/Tourn.</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-blue);">${p.wins}</div><div class="ms-label" title="Individual match victories">Match Wins</div></div>
     <div class="modal-stat"><div class="ms-val" style="color: var(--accent-rose);">${p.losses}</div><div class="ms-label">Losses</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-gold);">${twCount}</div><div class="ms-label">Tourn. Wins</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-emerald);">${taCount}</div><div class="ms-label">Advancements</div></div>
-    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-purple);">${p.placed_pct}%</div><div class="ms-label">Placed Rate</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-gold);">${twCount}</div><div class="ms-label" title="Tournament champion finishes (4 pts each)">Tourn. Wins</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-emerald);">${taCount}</div><div class="ms-label" title="Semifinalist or consolation bracket winner (2 pts each)">Advancements</div></div>
+    <div class="modal-stat"><div class="ms-val" style="color: var(--accent-purple);">${p.placed_pct}%</div><div class="ms-label" title="Percentage of tournaments where player placed">Placed Rate</div></div>
   `;
 }
 

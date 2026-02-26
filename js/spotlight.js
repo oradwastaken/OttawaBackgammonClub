@@ -49,11 +49,11 @@ export function renderSpotlightCard() {
 
   document.getElementById('spotlight-stats').innerHTML = `
     <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-gold)">${Math.round(p.total_points)}</span><span class="ss-label">Points</span></div>
-    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-emerald)">${p.win_pct}%</span><span class="ss-label">Win Rate</span></div>
-    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-cyan)">${p.ppt}</span><span class="ss-label">PPT</span></div>
-    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-blue)">${p.wins}-${p.losses}</span><span class="ss-label">W-L</span></div>
-    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-purple)">${p.placed_pct}%</span><span class="ss-label">Placed</span></div>
-    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-orange)">${p.tournaments}</span><span class="ss-label">Tourn.</span></div>
+    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-emerald)">${p.win_pct}%</span><span class="ss-label" title="Win Percentage">Win Rate</span></div>
+    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-cyan)">${p.ppt}</span><span class="ss-label" title="Points Per Tournament">PPT</span></div>
+    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-blue)">${p.wins}-${p.losses}</span><span class="ss-label" title="Wins - Losses">W-L</span></div>
+    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-purple)">${p.placed_pct}%</span><span class="ss-label" title="Placement Percentage">Placed</span></div>
+    <div class="spotlight-stat"><span class="ss-val" style="color:var(--accent-orange)">${p.tournaments}</span><span class="ss-label" title="Tournaments attended">Tourn.</span></div>
   `;
 
   card.style.display = '';

@@ -870,10 +870,12 @@ body::before {
 .recap-nav {
   background: var(--overlay-faint);
   border: 1px solid var(--overlay-medium);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--text-secondary);
-  font-size: 10px;
-  padding: 2px 8px;
+  font-size: 13px;
+  padding: 6px 12px;
+  min-width: 36px;
+  min-height: 36px;
   cursor: pointer;
   transition: all 0.15s;
   vertical-align: middle;

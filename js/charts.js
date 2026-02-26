@@ -125,7 +125,7 @@ export function buildPodium() {
         <div class="podium-avatar" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};width:${avatarSize}px;height:${avatarSize}px;font-size:${fontSize}px;">${crown}${initials(p.player)}</div>
         <div class="podium-name">${p.player}</div>
         <div class="podium-pts">${Math.round(p.total_points)} pts</div>
-        <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> MW · <span style="color:${COLORS.gold}">${Math.round(getBreakdownData(p).tournamentWins / 4)}</span> TW · <span style="color:${COLORS.emerald}">${Math.round(getBreakdownData(p).advancements / 2)}</span> TA</div>
+        <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> <span title="Match Wins">MW</span> · <span style="color:${COLORS.gold}">${Math.round(getBreakdownData(p).tournamentWins / 4)}</span> <span title="Tournament Wins">TW</span> · <span style="color:${COLORS.emerald}">${Math.round(getBreakdownData(p).advancements / 2)}</span> <span title="Tournament Advancements">TA</span></div>
         <div class="podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${pc.barGrad});"></div>
       </div>`;
   }).join('');
@@ -166,8 +166,8 @@ export function buildLeaderboardTable() {
       <span class="rank">${competitionRank(state.byPoints, i + 5, 'total_points')}</span>
       <span class="name">${p.player}</span>
       <span class="stat-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</span>
-      <span class="stat-val" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
-      <span class="stat-val" style="color: var(--accent-cyan);">${p.ppt}</span>
+      <span class="stat-val" title="Wins - Losses" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
+      <span class="stat-val" title="Points Per Tournament" style="color: var(--accent-cyan);">${p.ppt}</span>
     </div>`).join('');
 
   // Show more / Show less toggle
@@ -202,8 +202,8 @@ export function buildLeaderboardTable() {
             <span class="rank">${competitionRank(state.byPoints, idx, 'total_points')}</span>
             <span class="name">${p.player}</span>
             <span class="stat-val" style="color: var(--accent-gold);">${Math.round(p.total_points)}</span>
-            <span class="stat-val" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
-            <span class="stat-val" style="color: var(--accent-cyan);">${p.ppt}</span>
+            <span class="stat-val" title="Wins - Losses" style="color: var(--text-secondary);">${p.wins}-${p.losses}</span>
+            <span class="stat-val" title="Points Per Tournament" style="color: var(--accent-cyan);">${p.ppt}</span>
           </div>`;
         if (toggle) {
           toggle.insertAdjacentHTML('beforebegin', html);
@@ -488,23 +488,23 @@ function buildMiniBoard(elId, data, valFn, subFn, color, count = 10, rankKey = '
 
 export function buildAllMiniBoards() {
   buildMiniBoard('board-winrate', state.byWinPct,
-    p => p.win_pct + '%',
-    p => `${p.wins}W/${p.losses}L`,
+    p => `<span title="Win Percentage">${p.win_pct}%</span>`,
+    p => `<span title="Wins / Losses">${p.wins}W/${p.losses}L</span>`,
     'var(--accent-emerald)', 10, 'win_pct'
   );
   buildMiniBoard('board-ppt', state.byPPT,
-    p => p.ppt.toFixed(2),
-    p => `${p.tournaments} tourn.`,
+    p => `<span title="Points Per Tournament">${p.ppt.toFixed(2)}</span>`,
+    p => `<span title="Tournaments attended">${p.tournaments} tourn.</span>`,
     'var(--accent-cyan)', 10, 'ppt'
   );
   buildMiniBoard('board-placed', state.byPlaced,
-    p => p.placed_pct + '%',
-    p => `${p.placed_count}/${p.tournaments}`,
+    p => `<span title="Placement Percentage">${p.placed_pct}%</span>`,
+    p => `<span title="Times placed / Tournaments attended">${p.placed_count}/${p.tournaments}</span>`,
     'var(--accent-purple)', 10, 'placed_pct'
   );
   buildMiniBoard('board-attendance', state.byAttendance,
-    p => p.tournaments.toString(),
-    p => `${p.participation_pct}%`,
+    p => `<span title="Tournaments attended">${p.tournaments}</span>`,
+    p => `<span title="Participation Percentage">${p.participation_pct}%</span>`,
     'var(--accent-orange)', 10, 'tournaments'
   );
   // Update min-tournament notes
@@ -1009,7 +1009,7 @@ export function buildWinLossChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', align: 'end' },
+        legend: { position: 'top' },
         tooltip: {
           callbacks: {
             label: (ctx) => {
@@ -1453,7 +1453,7 @@ export function buildMonthlyRecap() {
         <div class="recap-podium-avatar" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};">${crown}${initials(name)}</div>
         <div class="recap-podium-name">${firstName(name)}</div>
         <div class="recap-podium-stat">${stats.points}<span class="recap-podium-unit">pts</span></div>
-        <div class="recap-podium-sub">${stats.wins}W-${stats.losses}L · ${stats.win_pct}%</div>
+        <div class="recap-podium-sub" title="Wins-Losses · Win Percentage">${stats.wins}W-${stats.losses}L · ${stats.win_pct}%</div>
         <div class="recap-podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${pc.barGrad});"></div>
       </div>`;
   }).join('');
@@ -1468,7 +1468,7 @@ export function buildMonthlyRecap() {
         <div class="recap-mover-row clickable" onclick="openModal('${escaped}')">
           <span class="recap-mover-arrow up">&#9733;</span>
           <span class="recap-mover-name">${p.name}</span>
-          <span class="recap-mover-detail">${[p.tw ? p.tw + ' TW' : '', p.adv ? p.adv + ' TA' : ''].filter(Boolean).join(' · ')}</span>
+          <span class="recap-mover-detail">${[p.tw ? p.tw + ' <span title="Tournament Wins">TW</span>' : '', p.adv ? p.adv + ' <span title="Tournament Advancements">TA</span>' : ''].filter(Boolean).join(' · ')}</span>
           <span class="recap-mover-badge up">${p.count}x</span>
         </div>`;
     }).join('');
@@ -1484,7 +1484,7 @@ export function buildMonthlyRecap() {
         <div class="recap-mover-row clickable" onclick="openModal('${escaped}')">
           <span class="recap-mover-arrow up">&#9650;</span>
           <span class="recap-mover-name">${m.name}</span>
-          <span class="recap-mover-detail">${m.wl ? m.wl + ' · ' : ''}#${m.currentRank}</span>
+          <span class="recap-mover-detail">${m.wl ? '<span title="Wins - Losses">' + m.wl + '</span> · ' : ''}#${m.currentRank}</span>
           <span class="recap-mover-badge up">+${m.change}</span>
         </div>`;
     }).join('');
