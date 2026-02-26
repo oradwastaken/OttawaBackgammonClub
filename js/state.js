@@ -58,3 +58,12 @@ export function competitionRank(sortedArray, index, key) {
   while (rank > 0 && sortedArray[rank - 1][key] === val) rank--;
   return rank + 1;
 }
+
+/** Podium rank colors (1-indexed). Used by main podium and monthly recap. */
+export const PODIUM_COLORS = {
+  1: { bg: 'light-dark(rgba(217,119,6,0.2), rgba(245,158,11,0.2))', border: 'var(--accent-gold)', color: 'var(--accent-gold-light)', barGrad: 'light-dark(rgba(217,119,6,0.45), rgba(245,158,11,0.3)), light-dark(rgba(217,119,6,0.1), rgba(245,158,11,0.05))' },
+  2: { bg: 'light-dark(rgba(100,116,139,0.15), rgba(148,163,184,0.15))', border: 'light-dark(#64748b, #94a3b8)', color: 'light-dark(#475569, #cbd5e1)', barGrad: 'light-dark(rgba(100,116,139,0.4), rgba(148,163,184,0.3)), light-dark(rgba(100,116,139,0.1), rgba(148,163,184,0.05))' },
+  3: { bg: 'light-dark(rgba(180,83,9,0.15), rgba(217,119,6,0.15))', border: 'light-dark(#b45309, #d97706)', color: 'light-dark(#92400e, #fbbf24)', barGrad: 'light-dark(rgba(180,83,9,0.4), rgba(217,119,6,0.25)), light-dark(rgba(180,83,9,0.1), rgba(217,119,6,0.05))' },
+  4: { bg: 'light-dark(rgba(37,99,235,0.12), rgba(59,130,246,0.12))', border: 'light-dark(#2563eb, #3b82f6)', color: 'light-dark(#1e40af, #93c5fd)', barGrad: 'light-dark(rgba(37,99,235,0.35), rgba(59,130,246,0.2)), light-dark(rgba(37,99,235,0.08), rgba(59,130,246,0.05))' },
+  5: { bg: 'light-dark(rgba(124,58,237,0.12), rgba(139,92,246,0.12))', border: 'light-dark(#7c3aed, #8b5cf6)', color: 'light-dark(#5b21b6, #c4b5fd)', barGrad: 'light-dark(rgba(124,58,237,0.35), rgba(139,92,246,0.2)), light-dark(rgba(124,58,237,0.08), rgba(139,92,246,0.05))' },
+};

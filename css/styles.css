@@ -708,11 +708,195 @@ body::before {
 
 /* Responsive */
 
+/* ===== Monthly Recap ===== */
+
+.recap-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.recap-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.recap-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 12px;
+}
+
+.recap-podium-slot {
+  text-align: center;
+  flex: 1;
+  max-width: 130px;
+}
+
+.recap-podium-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  margin: 0 auto 6px;
+  border: 2px solid;
+  position: relative;
+}
+
+.recap-podium-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recap-podium-stat {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent-emerald);
+  margin-bottom: 1px;
+}
+.recap-podium-unit {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-left: 1px;
+}
+
+.recap-podium-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.recap-podium-bar {
+  border-radius: 6px 6px 0 0;
+  width: 100%;
+  margin-top: 6px;
+  transition: height 0.6s ease;
+}
+
+.recap-movers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recap-movers-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.recap-mover-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--overlay-weak);
+  transition: background 0.2s;
+}
+
+.recap-mover-row:hover {
+  background: var(--overlay-faint);
+}
+
+.recap-mover-arrow {
+  font-size: 14px;
+  font-weight: 800;
+  min-width: 20px;
+  text-align: center;
+}
+
+.recap-mover-arrow.up { color: var(--accent-emerald); }
+.recap-mover-arrow.down { color: var(--accent-rose); }
+
+.recap-mover-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.recap-mover-detail {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.recap-mover-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.recap-mover-badge.up {
+  background: light-dark(rgba(5, 150, 105, 0.12), rgba(16, 185, 129, 0.12));
+  color: var(--accent-emerald);
+}
+
+.recap-mover-badge.down {
+  background: light-dark(rgba(225, 29, 72, 0.12), rgba(244, 63, 94, 0.12));
+  color: var(--accent-rose);
+}
+
+.recap-month-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.recap-month-label {
+  display: inline-block;
+  width: 220px;
+  text-align: center;
+}
+
+.recap-nav {
+  background: var(--overlay-faint);
+  border: 1px solid var(--overlay-medium);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  vertical-align: middle;
+}
+
+.recap-nav:hover:not(.disabled) {
+  background: var(--overlay-medium);
+  color: var(--text-primary);
+}
+
+.recap-nav.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .charts-grid-3 { grid-template-columns: 1fr; }
   .leaderboard-grid { grid-template-columns: 1fr; }
+  .recap-content { grid-template-columns: 1fr; }
+  .recap-lists { grid-template-columns: 1fr; }
 }
 
 /* Small tablet / large phone */

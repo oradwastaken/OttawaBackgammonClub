@@ -8,7 +8,8 @@ import { rebuildCharts, rebuildAll, buildPodium, buildLeaderboardTable, toggleLe
          animateNumber, getFilterLabel,
          initCumulativeSearch, removeCumulativePlayer,
          initBreakdownSearch, removeBreakdownPlayer,
-         buildTrendChart, initTrendSearch, removeTrendPlayer, onTrendWindowChange } from './charts.js';
+         buildTrendChart, initTrendSearch, removeTrendPlayer, onTrendWindowChange,
+         buildMonthlyRecap, recapPrev, recapNext } from './charts.js';
 import { openModal, closeModal, onModalTrendSlider, onModalYearToggle, onModalYearsExpand, onModalYearsCollapse } from './modal.js';
 import { openUploadModal, closeUploadModal, handleFileUpload, applyUploadedData } from './upload.js';
 import { publishToGitHub, toggleGitHubSettings, saveGitHubSettings } from './github.js';
@@ -25,6 +26,7 @@ Object.assign(window, {
   removeTrendPlayer,
   onTrendWindowChange,
   toggleLeaderboardExpand,
+  recapPrev, recapNext,
   onModalTrendSlider,
   onModalYearToggle,
   onModalYearsExpand,
@@ -197,6 +199,7 @@ async function init() {
   applyChartDefaults();
   buildPodium();
   buildLeaderboardTable();
+  buildMonthlyRecap();
   buildPointsBreakdown();
   initBreakdownSearch();
   buildAllMiniBoards();

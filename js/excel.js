@@ -94,7 +94,7 @@ export function parseExcelToData(workbook) {
 
     // Collect per-tournament history for rolling win % charts
     if (!tournamentHistory[name]) tournamentHistory[name] = [];
-    tournamentHistory[name].push({ date: dateStr, wins, losses });
+    tournamentHistory[name].push({ date: dateStr, wins, losses, placing });
   }
 
   const total_tournaments = tournamentDates.size;

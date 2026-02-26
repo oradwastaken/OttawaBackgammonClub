@@ -1,4 +1,4 @@
-import { state, COLORS, PALETTE, firstName, initials, competitionRank } from './state.js';
+import { state, COLORS, PALETTE, PODIUM_COLORS, firstName, initials, competitionRank } from './state.js';
 import { isDark, applyChartDefaults } from './theme.js';
 import { applyFilters, deriveData, getFilteredTournamentCount, updateDataSourceInfo } from './data.js';
 import { renderSpotlightCard } from './spotlight.js';
@@ -53,6 +53,7 @@ export function rebuildAll() {
   deriveData();
   buildPodium();
   buildLeaderboardTable();
+  buildMonthlyRecap();
   rebuildCharts();
 
   // Update summary stats to reflect filtered data
@@ -108,26 +109,11 @@ export function buildPodium() {
   const MIN_BAR = 30;
   const MAX_BAR = 110;
 
-  const avatarColors = {
-    1: { bg: 'light-dark(rgba(217,119,6,0.2), rgba(245,158,11,0.2))', border: 'var(--accent-gold)', color: 'var(--accent-gold-light)' },
-    2: { bg: 'light-dark(rgba(100,116,139,0.15), rgba(148,163,184,0.15))', border: 'light-dark(#64748b, #94a3b8)', color: 'light-dark(#475569, #cbd5e1)' },
-    3: { bg: 'light-dark(rgba(180,83,9,0.15), rgba(217,119,6,0.15))', border: 'light-dark(#b45309, #d97706)', color: 'light-dark(#92400e, #fbbf24)' },
-    4: { bg: 'light-dark(rgba(37,99,235,0.12), rgba(59,130,246,0.12))', border: 'light-dark(#2563eb, #3b82f6)', color: 'light-dark(#1e40af, #93c5fd)' },
-    5: { bg: 'light-dark(rgba(124,58,237,0.12), rgba(139,92,246,0.12))', border: 'light-dark(#7c3aed, #8b5cf6)', color: 'light-dark(#5b21b6, #c4b5fd)' },
-  };
-  const barGrads = {
-    1: 'light-dark(rgba(217,119,6,0.45), rgba(245,158,11,0.3)), light-dark(rgba(217,119,6,0.1), rgba(245,158,11,0.05))',
-    2: 'light-dark(rgba(100,116,139,0.4), rgba(148,163,184,0.3)), light-dark(rgba(100,116,139,0.1), rgba(148,163,184,0.05))',
-    3: 'light-dark(rgba(180,83,9,0.4), rgba(217,119,6,0.25)), light-dark(rgba(180,83,9,0.1), rgba(217,119,6,0.05))',
-    4: 'light-dark(rgba(37,99,235,0.35), rgba(59,130,246,0.2)), light-dark(rgba(37,99,235,0.08), rgba(59,130,246,0.05))',
-    5: 'light-dark(rgba(124,58,237,0.35), rgba(139,92,246,0.2)), light-dark(rgba(124,58,237,0.08), rgba(139,92,246,0.05))',
-  };
 
   podiumEl.innerHTML = order.map((p, i) => {
     const rank = competitionRank(state.byPoints, i, 'total_points');
     const crown = rank === 1 ? '<span class="crown">&#9813;</span>' : '';
-    const colorKey = Math.min(rank, 5);
-    const ac = avatarColors[colorKey];
+    const pc = PODIUM_COLORS[Math.min(rank, 5)];
     const isFirst = rank === 1;
     const avatarSize = isFirst ? 68 : 56;
     const fontSize = isFirst ? 22 : 18;
@@ -136,11 +122,11 @@ export function buildPodium() {
     const barH = ptsRange > 0 ? MIN_BAR + ((pts - botPts) / ptsRange) * (MAX_BAR - MIN_BAR) : MAX_BAR;
     return `
       <div class="podium-slot clickable" onclick="openModal('${p.player}')">
-        <div class="podium-avatar" style="background:${ac.bg};border-color:${ac.border};color:${ac.color};width:${avatarSize}px;height:${avatarSize}px;font-size:${fontSize}px;">${crown}${initials(p.player)}</div>
+        <div class="podium-avatar" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};width:${avatarSize}px;height:${avatarSize}px;font-size:${fontSize}px;">${crown}${initials(p.player)}</div>
         <div class="podium-name">${p.player}</div>
         <div class="podium-pts">${Math.round(p.total_points)} pts</div>
         <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> MW · <span style="color:${COLORS.gold}">${Math.round(getBreakdownData(p).tournamentWins / 4)}</span> TW · <span style="color:${COLORS.emerald}">${Math.round(getBreakdownData(p).advancements / 2)}</span> TA</div>
-        <div class="podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${barGrads[colorKey]});"></div>
+        <div class="podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${pc.barGrad});"></div>
       </div>`;
   }).join('');
 
@@ -1257,4 +1243,260 @@ export function onTrendWindowChange(value) {
   const valueEl = document.getElementById('trend-slider-value');
   if (valueEl) valueEl.textContent = state.trendWindowSize;
   buildTrendChart();
+}
+
+// ===== 13. MONTHLY RECAP =====
+
+const MONTH_NAMES = ['January','February','March','April','May','June',
+  'July','August','September','October','November','December'];
+
+/** List of months (YYYY-MM) that have tournament data, sorted ascending */
+let recapMonths = [];
+/** Index into recapMonths for currently displayed month */
+let recapMonthIdx = -1;
+
+/** Build the sorted list of months that have tournament data */
+function initRecapMonths() {
+  const allDates = Object.keys(state.DATA.attendance).sort();
+  const monthSet = new Set(allDates.map(d => d.slice(0, 7)));
+  recapMonths = [...monthSet].sort();
+  recapMonthIdx = recapMonths.length - 1; // default to latest
+}
+
+/**
+ * Compute monthly stats from tournament_history for a given month (YYYY-MM).
+ * Returns null if no data available.
+ */
+function getMonthlyRecapData(targetMonth) {
+  const th = state.DATA.tournament_history;
+  if (!th || !Object.keys(th).length) return null;
+
+  const allDates = Object.keys(state.DATA.attendance).sort();
+  if (!allDates.length) return null;
+
+  const [yr, mo] = targetMonth.split('-').map(Number);
+  const monthDates = allDates.filter(d => d.startsWith(targetMonth));
+  if (!monthDates.length) return null;
+
+  // Per-player stats for the target month
+  const monthStats = {};
+  for (const [name, history] of Object.entries(th)) {
+    const entries = history.filter(h => h.date.startsWith(targetMonth));
+    if (!entries.length) continue;
+    const wins = entries.reduce((s, e) => s + e.wins, 0);
+    const losses = entries.reduce((s, e) => s + e.losses, 0);
+    const placing_pts = entries.reduce((s, e) => s + (e.placing || 0), 0);
+    const matches = wins + losses;
+    const points = wins + placing_pts;
+    monthStats[name] = {
+      wins, losses, placing_pts, points, matches,
+      tournaments: entries.length,
+      win_pct: matches > 0 ? +((wins / matches) * 100).toFixed(1) : 0
+    };
+  }
+
+  if (!Object.keys(monthStats).length) return null;
+
+  // Top 5 by total points (wins + placing_pts)
+  const byPoints = Object.entries(monthStats)
+    .sort((a, b) => b[1].points - a[1].points || b[1].wins - a[1].wins || a[1].losses - b[1].losses);
+  const podium = byPoints.slice(0, 5);
+
+  // Placers: tally placing points from tournament_history entries
+  // placing === 4 → tournament win, placing === 2 → advancement (semifinal/consolation)
+  const placerStats = {};
+  for (const [name, history] of Object.entries(th)) {
+    for (const entry of history) {
+      if (!entry.date.startsWith(targetMonth)) continue;
+      const pts = entry.placing || 0;
+      if (pts > 0) {
+        if (!placerStats[name]) placerStats[name] = { count: 0, pts: 0, tw: 0, adv: 0 };
+        placerStats[name].count++;
+        placerStats[name].pts += pts;
+        if (pts === 4) placerStats[name].tw++;
+        else placerStats[name].adv++;
+      }
+    }
+  }
+  const placers = Object.entries(placerStats)
+    .sort((a, b) => b[1].count - a[1].count || b[1].pts - a[1].pts)
+    .slice(0, 5)
+    .map(([name, s]) => ({ name, ...s }));
+
+  // Yearly leaderboard movers: rank by year-to-date points (wins + placing)
+  // Compare YTD through end of this month vs YTD through end of previous month
+  const lastDayOfMonth = monthDates[monthDates.length - 1];
+  const targetYear = targetMonth.slice(0, 4);
+  const ytdThisMonth = {};
+  const ytdPrevMonth = {};
+  for (const [name, history] of Object.entries(th)) {
+    let ptsThru = 0, ptsBefore = 0;
+    for (const entry of history) {
+      if (!entry.date.startsWith(targetYear)) continue;
+      const entryPts = entry.wins + (entry.placing || 0);
+      if (entry.date <= lastDayOfMonth) ptsThru += entryPts;
+      if (entry.date < monthDates[0]) ptsBefore += entryPts;
+    }
+    if (ptsThru > 0) ytdThisMonth[name] = ptsThru;
+    if (ptsBefore > 0) ytdPrevMonth[name] = ptsBefore;
+  }
+
+  // Competition ranking: tied scores share the same rank
+  function assignRanks(sorted) {
+    const ranks = {};
+    for (let i = 0; i < sorted.length; i++) {
+      let r = i;
+      while (r > 0 && sorted[r - 1][1] === sorted[i][1]) r--;
+      ranks[sorted[i][0]] = r + 1;
+    }
+    return ranks;
+  }
+  const currentSorted = Object.entries(ytdThisMonth).sort((a, b) => b[1] - a[1]);
+  const currentRank = assignRanks(currentSorted);
+
+  const prevSorted = Object.entries(ytdPrevMonth).sort((a, b) => b[1] - a[1]);
+  const prevRank = assignRanks(prevSorted);
+
+  // Check ALL players for rank changes, not just those who played this month
+  const allRanked = new Set([...Object.keys(currentRank), ...Object.keys(prevRank)]);
+  const movers = [];
+  for (const name of allRanked) {
+    const prev = prevRank[name];
+    const curr = currentRank[name];
+    if (!prev || !curr) continue; // new or departed player
+    const change = prev - curr;
+    if (change === 0) continue;
+    const ms = monthStats[name];
+    movers.push({
+      name,
+      currentRank: curr,
+      prevRank: prev,
+      change,
+      wins: ms ? ms.wins : 0,
+      wl: ms ? `${ms.wins}W-${ms.losses}L` : '',
+    });
+  }
+  movers.sort((a, b) => b.change - a.change);
+
+  return {
+    month: targetMonth,
+    monthLabel: `${MONTH_NAMES[mo - 1]} ${yr}`,
+    tournaments: monthDates.length,
+    playerCount: Object.keys(monthStats).length,
+    podium,
+    movers,
+    placers,
+  };
+}
+
+export function recapPrev() {
+  if (recapMonthIdx > 0) {
+    recapMonthIdx--;
+    buildMonthlyRecap();
+  }
+}
+
+export function recapNext() {
+  if (recapMonthIdx < recapMonths.length - 1) {
+    recapMonthIdx++;
+    buildMonthlyRecap();
+  }
+}
+
+export function buildMonthlyRecap() {
+  const wrap = document.getElementById('monthly-recap-wrap');
+  if (!wrap) return;
+
+  // Initialize month list on first call
+  if (!recapMonths.length) initRecapMonths();
+  if (recapMonthIdx < 0 || !recapMonths.length) {
+    wrap.style.display = 'none';
+    return;
+  }
+
+  const recap = getMonthlyRecapData(recapMonths[recapMonthIdx]);
+  if (!recap) {
+    wrap.style.display = 'none';
+    return;
+  }
+
+  wrap.style.display = '';
+
+  // Title with nav arrows
+  const hasPrev = recapMonthIdx > 0;
+  const hasNext = recapMonthIdx < recapMonths.length - 1;
+  const titleEl = document.getElementById('recap-title');
+  if (titleEl) {
+    titleEl.innerHTML = `<span class="dot" style="background: var(--accent-rose);"></span>`
+      + `<button class="recap-nav${hasPrev ? '' : ' disabled'}" onclick="recapPrev()" title="Previous month">&#9664;</button>`
+      + `<span class="recap-month-label">${recap.monthLabel} Recap</span>`
+      + `<button class="recap-nav${hasNext ? '' : ' disabled'}" onclick="recapNext()" title="Next month">&#9654;</button>`;
+  }
+
+  const content = document.getElementById('recap-content');
+
+  // === Left: Mini podium ===
+  const topPts = recap.podium[0]?.[1].points || 1;
+  const MIN_BAR = 20;
+  const MAX_BAR = 70;
+
+  const podiumHtml = recap.podium.map(([name, stats], i) => {
+    // Competition rank: tied points share the same position and color
+    let rank = i;
+    while (rank > 0 && recap.podium[rank - 1][1].points === stats.points) rank--;
+    const pc = PODIUM_COLORS[Math.min(rank + 1, 5)];
+    const crown = rank === 0 ? '<span class="crown">&#9813;</span>' : '';
+    const barH = MIN_BAR + ((stats.points / topPts) * (MAX_BAR - MIN_BAR));
+    const escaped = name.replace(/'/g, "\\'");
+    return `
+      <div class="recap-podium-slot clickable" onclick="openModal('${escaped}')">
+        <div class="recap-podium-avatar" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};">${crown}${initials(name)}</div>
+        <div class="recap-podium-name">${firstName(name)}</div>
+        <div class="recap-podium-stat">${stats.points}<span class="recap-podium-unit">pts</span></div>
+        <div class="recap-podium-sub">${stats.wins}W-${stats.losses}L · ${stats.win_pct}%</div>
+        <div class="recap-podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${pc.barGrad});"></div>
+      </div>`;
+  }).join('');
+
+  // === Right column: Placers + All-time movers ===
+  let placersHtml = '';
+  if (recap.placers.length) {
+    placersHtml = `<div class="recap-movers-title">Placements</div>`;
+    placersHtml += recap.placers.map(p => {
+      const escaped = p.name.replace(/'/g, "\\'");
+      return `
+        <div class="recap-mover-row clickable" onclick="openModal('${escaped}')">
+          <span class="recap-mover-arrow up">&#9733;</span>
+          <span class="recap-mover-name">${p.name}</span>
+          <span class="recap-mover-detail">${[p.tw ? p.tw + ' TW' : '', p.adv ? p.adv + ' TA' : ''].filter(Boolean).join(' · ')}</span>
+          <span class="recap-mover-badge up">${p.count}x</span>
+        </div>`;
+    }).join('');
+  }
+
+  const climbers = recap.movers.filter(m => m.change > 0).slice(0, 4);
+  let moversHtml = '';
+  if (climbers.length) {
+    moversHtml = `<div class="recap-movers-title">Yearly Climbers</div>`;
+    moversHtml += climbers.map(m => {
+      const escaped = m.name.replace(/'/g, "\\'");
+      return `
+        <div class="recap-mover-row clickable" onclick="openModal('${escaped}')">
+          <span class="recap-mover-arrow up">&#9650;</span>
+          <span class="recap-mover-name">${m.name}</span>
+          <span class="recap-mover-detail">${m.wl ? m.wl + ' · ' : ''}#${m.currentRank}</span>
+          <span class="recap-mover-badge up">+${m.change}</span>
+        </div>`;
+    }).join('');
+  }
+
+  content.innerHTML = `
+    <div>
+      <div class="recap-podium">${podiumHtml}</div>
+      <div class="recap-month-meta">${recap.tournaments} tournament${recap.tournaments !== 1 ? 's' : ''} · ${recap.playerCount} players</div>
+    </div>
+    <div class="recap-lists">
+      <div class="recap-movers">${placersHtml}</div>
+      <div class="recap-movers">${moversHtml}</div>
+    </div>`;
 }
