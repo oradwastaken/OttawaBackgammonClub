@@ -1451,6 +1451,8 @@ export function buildMonthlyRecap() {
 
   // === Left: Mini podium ===
   const topPts = recap.podium[0]?.[1].points || 1;
+  const botPts = recap.podium[recap.podium.length - 1]?.[1].points || 0;
+  const ptsRange = topPts - botPts;
   const MIN_BAR = 20;
   const MAX_BAR = 70;
 
@@ -1460,7 +1462,8 @@ export function buildMonthlyRecap() {
     while (rank > 0 && recap.podium[rank - 1][1].points === stats.points) rank--;
     const pc = PODIUM_COLORS[Math.min(rank + 1, 5)];
     const crown = rank === 0 ? '<span class="crown">&#9813;</span>' : '';
-    const barH = MIN_BAR + ((stats.points / topPts) * (MAX_BAR - MIN_BAR));
+    // Bar height: 1st pinned to MAX, last pinned to MIN, others interpolated by points
+    const barH = ptsRange > 0 ? MIN_BAR + ((stats.points - botPts) / ptsRange) * (MAX_BAR - MIN_BAR) : MAX_BAR;
     const escaped = name.replace(/'/g, "\\'");
     return `
       <div class="recap-podium-slot clickable" onclick="openModal('${escaped}')">
