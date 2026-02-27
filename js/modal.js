@@ -244,6 +244,14 @@ function buildModalTrendChart(playerName, windowSize) {
         legend: { display: false },
         tooltip: {
           callbacks: {
+            title: (items) => {
+              if (!items.length) return '';
+              const raw = items[0].raw?.x;
+              if (raw instanceof Date || (typeof raw === 'string' && raw.includes('-'))) {
+                return new Date(raw + 'T00:00:00').toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+              }
+              return String(raw);
+            },
             label: (ctx) => `Win %: ${ctx.parsed.y}%`
           }
         }

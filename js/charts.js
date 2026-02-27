@@ -488,7 +488,7 @@ function buildMiniBoard(elId, data, valFn, subFn, color, count = 10, rankKey = '
 
 export function buildAllMiniBoards() {
   buildMiniBoard('board-winrate', state.byWinPct,
-    p => `<span title="Win Percentage">${p.win_pct}%</span>`,
+    p => `<span title="Win Percentage">${Math.round(p.win_pct)}%</span>`,
     p => `<span title="Wins / Losses">${p.wins}W/${p.losses}L</span>`,
     'var(--accent-emerald)', 10, 'win_pct'
   );
@@ -498,13 +498,13 @@ export function buildAllMiniBoards() {
     'var(--accent-cyan)', 10, 'ppt'
   );
   buildMiniBoard('board-placed', state.byPlaced,
-    p => `<span title="Placement Percentage">${p.placed_pct}%</span>`,
+    p => `<span title="Placement Percentage">${Math.round(p.placed_pct)}%</span>`,
     p => `<span title="Times placed / Tournaments attended">${p.placed_count}/${p.tournaments}</span>`,
     'var(--accent-purple)', 10, 'placed_pct'
   );
   buildMiniBoard('board-attendance', state.byAttendance,
     p => `<span title="Tournaments attended">${p.tournaments}</span>`,
-    p => `<span title="Participation Percentage">${p.participation_pct}%</span>`,
+    p => `<span title="Participation Percentage">${Math.round(p.participation_pct)}%</span>`,
     'var(--accent-orange)', 10, 'tournaments'
   );
   // Update min-tournament notes
@@ -1144,7 +1144,8 @@ export function buildTrendChart() {
               if (!items.length) return '';
               const raw = items[0].raw?.x;
               if (raw instanceof Date || (typeof raw === 'string' && raw.includes('-'))) {
-                return new Date(raw).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+                const d = typeof raw === 'string' ? new Date(raw + 'T00:00:00') : raw;
+                return d.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
               }
               return String(raw);
             },
@@ -1466,7 +1467,7 @@ export function buildMonthlyRecap() {
         <div class="recap-podium-avatar" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};">${crown}${initials(name)}</div>
         <div class="recap-podium-name">${firstName(name)}</div>
         <div class="recap-podium-stat">${stats.points}<span class="recap-podium-unit">pts</span></div>
-        <div class="recap-podium-sub" title="Wins-Losses · Win Percentage">${stats.wins}W-${stats.losses}L · ${stats.win_pct}%</div>
+        <div class="recap-podium-sub" title="Wins-Losses · Win Percentage">${stats.wins}W-${stats.losses}L · ${Math.round(stats.win_pct)}%</div>
         <div class="recap-podium-bar" style="height:${Math.round(barH)}px;background:linear-gradient(180deg,${pc.barGrad});"></div>
       </div>`;
   }).join('');
