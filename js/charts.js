@@ -1321,7 +1321,6 @@ function getMonthlyRecapData(targetMonth) {
   }
   const placers = Object.entries(placerStats)
     .sort((a, b) => b[1].count - a[1].count || b[1].pts - a[1].pts)
-    .slice(0, 5)
     .map(([name, s]) => ({ name, ...s }));
 
   // Yearly leaderboard movers: rank by year-to-date points (wins + placing)
@@ -1491,7 +1490,7 @@ export function buildMonthlyRecap() {
     }).join('');
   }
 
-  const climbers = recap.movers.filter(m => m.change > 0).slice(0, 4);
+  const climbers = recap.movers.filter(m => m.change > 0);
   let moversHtml = '';
   if (climbers.length) {
     moversHtml = `<div class="recap-movers-title">Leaderboard Climbers</div>`;
