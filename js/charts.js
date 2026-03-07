@@ -331,13 +331,40 @@ export function buildPointsBreakdown() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', labels: { padding: 12, font: { size: 11 } } },
+        legend: {
+          position: 'top', labels: { padding: 12, font: { size: 11 } },
+          onClick(e, legendItem, legend) {
+            // Default toggle behavior
+            const ci = legend.chart;
+            const dsIndex = legendItem.datasetIndex;
+            ci.getDatasetMeta(dsIndex).hidden = !ci.getDatasetMeta(dsIndex).hidden;
+
+            // Compute visible total per bar and sort
+            const n = ci.data.labels.length;
+            const indices = Array.from({ length: n }, (_, i) => i);
+            const visibleTotals = indices.map(i =>
+              ci.data.datasets.reduce((sum, ds, di) =>
+                ci.getDatasetMeta(di).hidden ? sum : sum + (ds.data[i] || 0), 0)
+            );
+            indices.sort((a, b) => visibleTotals[b] - visibleTotals[a]);
+
+            // Reorder labels, dataset data, and border arrays
+            ci.data.labels = indices.map(i => ci.data.labels[i]);
+            for (const ds of ci.data.datasets) {
+              ds.data = indices.map(i => ds.data[i]);
+              if (Array.isArray(ds.borderColor)) ds.borderColor = indices.map(i => ds.borderColor[i]);
+              if (Array.isArray(ds.borderWidth)) ds.borderWidth = indices.map(i => ds.borderWidth[i]);
+            }
+            ci.update();
+          }
+        },
         tooltip: {
           callbacks: {
             afterBody: (ctx) => {
               const idx = ctx[0].dataIndex;
-              const p = selected[idx];
-              return `Total: ${Math.round(p.total_points)} pts`;
+              const ci = ctx[0].chart;
+              const total = ci.data.datasets.reduce((s, ds) => s + (ds.data[idx] || 0), 0);
+              return `Total: ${Math.round(total)} pts`;
             }
           }
         }
