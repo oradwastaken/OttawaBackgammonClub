@@ -360,6 +360,13 @@ export function buildPointsBreakdown() {
         },
         tooltip: {
           callbacks: {
+            label: (ctx) => {
+              const val = ctx.raw || 0;
+              const label = ctx.dataset.label;
+              if (label === 'Tourn. Wins') return ` ${label}: ${Math.round(val / 4)}`;
+              if (label === 'Advancements') return ` ${label}: ${Math.round(val / 2)}`;
+              return ` ${label}: ${val}`;
+            },
             afterBody: (ctx) => {
               const idx = ctx[0].dataIndex;
               const ci = ctx[0].chart;
