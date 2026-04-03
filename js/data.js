@@ -196,6 +196,9 @@ export function updateDataSourceInfo() {
   if (!el) return;
   const allDates = Object.keys(state.DATA.attendance).sort();
   const latestTournament = allDates.length ? new Date(allDates[allDates.length - 1] + 'T00:00:00') : null;
+  const asOfStr = latestTournament
+    ? latestTournament.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    : 'unknown';
   const stored = loadDataFromStorage();
   if (stored && stored.data) {
     const uploadDate = new Date(stored.uploadedAt);
@@ -213,5 +216,5 @@ export function updateDataSourceInfo() {
   const firstYear = dates[0] ? dates[0].slice(0, 4) : '?';
   const lastYear = dates[dates.length - 1] ? dates[dates.length - 1].slice(0, 4) : '?';
   document.getElementById('header-subtitle').innerHTML =
-    `Player Statistics &amp; Performance Dashboard &mdash; ${state.DATA.total_tournaments} Tournaments &bull; ${state.DATA.players.length} Players &bull; ${firstYear} &ndash; ${lastYear}`;
+    `Player Statistics &amp; Performance Dashboard &mdash; as of <strong>${asOfStr}</strong> &mdash; ${state.DATA.total_tournaments} Tournaments &bull; ${state.DATA.players.length} Players &bull; ${firstYear} &ndash; ${lastYear}`;
 }
