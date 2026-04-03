@@ -274,12 +274,67 @@
 .publish-status.error { color: var(--accent-rose); }
 .publish-status.loading { color: var(--text-secondary); }
 
+.publish-alert {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  display: none;
+}
+
+.publish-alert.error {
+  display: block;
+  background: light-dark(rgba(225, 29, 72, 0.1), rgba(244, 63, 94, 0.12));
+  border: 1px solid light-dark(rgba(225, 29, 72, 0.3), rgba(244, 63, 94, 0.25));
+  color: var(--accent-rose);
+}
+
+.publish-alert.warning {
+  display: block;
+  background: light-dark(rgba(234, 179, 8, 0.1), rgba(234, 179, 8, 0.12));
+  border: 1px solid light-dark(rgba(234, 179, 8, 0.3), rgba(234, 179, 8, 0.25));
+  color: light-dark(#a16207, #facc15);
+}
+
+.publish-alert strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.publish-alert .publish-alert-link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .github-settings {
   margin-bottom: 12px;
   padding: 12px;
   border-radius: 8px;
   background: var(--overlay-faint);
   border: 1px solid var(--border-card);
+}
+
+.gh-mode-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.gh-mode-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.gh-mode-option input[type="radio"] {
+  margin: 0;
+  accent-color: var(--accent-sky);
 }
 
 .github-settings-title {

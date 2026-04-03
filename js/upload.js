@@ -14,6 +14,10 @@ export function openUploadModal() {
   document.getElementById('github-settings').style.display = 'none';
   const publishStatus = document.getElementById('publish-status');
   if (publishStatus) { publishStatus.textContent = ''; publishStatus.className = 'publish-status'; }
+  const publishAlert = document.getElementById('publish-alert');
+  if (publishAlert) { publishAlert.innerHTML = ''; publishAlert.className = 'publish-alert'; publishAlert.style.display = 'none'; }
+  const publishBtn = document.getElementById('publish-btn');
+  if (publishBtn) { publishBtn.disabled = false; publishBtn.textContent = 'Publish'; }
 }
 
 export function closeUploadModal() {

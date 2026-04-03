@@ -1,0 +1,8 @@
+name = "bgclub-publish"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# Secrets (set via CLI, NOT here):
+#   wrangler secret put GITHUB_TOKEN
+#   wrangler secret put GITHUB_REPO
+#   wrangler secret put UPLOAD_PASSWORD

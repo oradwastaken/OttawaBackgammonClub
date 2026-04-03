@@ -287,13 +287,30 @@
     <div id="publish-actions" class="export-actions" style="display:none;">
       <button class="upload-btn publish-btn" onclick="publishToGitHub()" style="width:100%" id="publish-btn">Publish</button>
       <div id="publish-status" class="publish-status"></div>
+      <div id="publish-alert" class="publish-alert"></div>
     </div>
     <div id="github-settings" class="github-settings" style="display:none;">
       <div class="github-settings-title">Connection Settings <span class="github-settings-hint">(one-time setup)</span></div>
-      <label class="github-label">Repository</label>
-      <input type="text" id="gh-repo" class="github-input" placeholder="e.g. JohnSmith/OttawaBackgammonClub">
-      <label class="github-label">Access Token</label>
-      <input type="password" id="gh-token" class="github-input" placeholder="ghp_xxxxxxxxxxxx">
+      <div class="gh-mode-toggle">
+        <label class="gh-mode-option">
+          <input type="radio" name="gh-mode" id="gh-mode-proxy" value="proxy" checked onchange="switchSettingsMode('proxy')">
+          <span>Shared Access (PIN)</span>
+        </label>
+        <label class="gh-mode-option">
+          <input type="radio" name="gh-mode" id="gh-mode-direct" value="direct" onchange="switchSettingsMode('direct')">
+          <span>Admin (Token)</span>
+        </label>
+      </div>
+      <div id="gh-proxy-fields">
+        <label class="github-label">PIN</label>
+        <input type="password" id="gh-proxy-pin" class="github-input" placeholder="Enter the shared access code">
+      </div>
+      <div id="gh-direct-fields" style="display:none;">
+        <label class="github-label">Repository</label>
+        <input type="text" id="gh-repo" class="github-input" placeholder="e.g. JohnSmith/OttawaBackgammonClub">
+        <label class="github-label">Access Token</label>
+        <input type="password" id="gh-token" class="github-input" placeholder="ghp_xxxxxxxxxxxx">
+      </div>
       <button class="upload-btn upload-btn-apply" onclick="saveGitHubSettings()" style="width:100%; margin-top:8px;">Save Settings</button>
     </div>
     <div class="upload-reset">

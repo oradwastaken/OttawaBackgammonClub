@@ -12,7 +12,7 @@ import { rebuildCharts, rebuildAll, buildPodium, buildLeaderboardTable, toggleLe
          buildMonthlyRecap, recapPrev, recapNext } from './charts.js';
 import { openModal, closeModal, onModalTrendSlider, onModalYearToggle, onModalYearsExpand, onModalYearsCollapse } from './modal.js';
 import { openUploadModal, closeUploadModal, handleFileUpload, applyUploadedData } from './upload.js';
-import { publishToGitHub, toggleGitHubSettings, saveGitHubSettings } from './github.js';
+import { publishToGitHub, toggleGitHubSettings, saveGitHubSettings, switchSettingsMode } from './github.js';
 import { initSpotlightSearch, restoreSpotlight, renderSpotlightCard } from './spotlight.js';
 
 // Expose functions to HTML onclick handlers
@@ -20,7 +20,7 @@ Object.assign(window, {
   openModal, closeModal,
   openUploadModal, closeUploadModal,
   handleFileUpload, applyUploadedData,
-  publishToGitHub, toggleGitHubSettings, saveGitHubSettings,
+  publishToGitHub, toggleGitHubSettings, saveGitHubSettings, switchSettingsMode,
   removeCumulativePlayer,
   removeBreakdownPlayer,
   removeTrendPlayer,
