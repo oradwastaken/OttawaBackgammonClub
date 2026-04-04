@@ -46,7 +46,7 @@
       "placing_pts": 400,
       "tournament_win_pts": 240,
       "advancement_pts": 160,
-      "participation_pct": 70.6
+      "participation_pct": 70.4
     },
     {
       "player": "Eden Windish",
@@ -66,33 +66,33 @@
     },
     {
       "player": "Zahi Deek",
-      "total_points": 384,
-      "wins": 244,
-      "losses": 296,
-      "total_matches": 540,
-      "win_pct": 45.2,
-      "tournaments": 216,
-      "ppt": 1.78,
+      "total_points": 385,
+      "wins": 245,
+      "losses": 298,
+      "total_matches": 543,
+      "win_pct": 45.1,
+      "tournaments": 217,
+      "ppt": 1.77,
       "placed_count": 60,
-      "placed_pct": 27.8,
+      "placed_pct": 27.6,
       "placing_pts": 140,
       "tournament_win_pts": 40,
       "advancement_pts": 100,
-      "participation_pct": 53.9
+      "participation_pct": 54
     },
     {
       "player": "Stuart Thomson",
-      "total_points": 1207,
-      "wins": 637,
+      "total_points": 1214,
+      "wins": 640,
       "losses": 352,
-      "total_matches": 989,
-      "win_pct": 64.4,
-      "tournaments": 364,
-      "ppt": 3.32,
-      "placed_count": 196,
-      "placed_pct": 53.8,
-      "placing_pts": 570,
-      "tournament_win_pts": 356,
+      "total_matches": 992,
+      "win_pct": 64.5,
+      "tournaments": 365,
+      "ppt": 3.33,
+      "placed_count": 197,
+      "placed_pct": 54,
+      "placing_pts": 574,
+      "tournament_win_pts": 360,
       "advancement_pts": 214,
       "participation_pct": 90.8
     },
@@ -116,13 +116,13 @@
       "player": "Scott Douglas",
       "total_points": 955,
       "wins": 535,
-      "losses": 459,
-      "total_matches": 994,
-      "win_pct": 53.8,
-      "tournaments": 384,
-      "ppt": 2.49,
+      "losses": 461,
+      "total_matches": 996,
+      "win_pct": 53.7,
+      "tournaments": 385,
+      "ppt": 2.48,
       "placed_count": 163,
-      "placed_pct": 42.4,
+      "placed_pct": 42.3,
       "placing_pts": 420,
       "tournament_win_pts": 188,
       "advancement_pts": 232,
@@ -130,19 +130,19 @@
     },
     {
       "player": "Alex Sakran",
-      "total_points": 663,
-      "wins": 385,
-      "losses": 334,
-      "total_matches": 719,
-      "win_pct": 53.5,
-      "tournaments": 276,
-      "ppt": 2.4,
-      "placed_count": 105,
-      "placed_pct": 38,
-      "placing_pts": 278,
+      "total_points": 668,
+      "wins": 388,
+      "losses": 335,
+      "total_matches": 723,
+      "win_pct": 53.7,
+      "tournaments": 277,
+      "ppt": 2.41,
+      "placed_count": 106,
+      "placed_pct": 38.3,
+      "placing_pts": 280,
       "tournament_win_pts": 136,
-      "advancement_pts": 142,
-      "participation_pct": 68.8
+      "advancement_pts": 144,
+      "participation_pct": 68.9
     },
     {
       "player": "Bruce Farquhar",
@@ -174,7 +174,7 @@
       "placing_pts": 56,
       "tournament_win_pts": 20,
       "advancement_pts": 36,
-      "participation_pct": 23.7
+      "participation_pct": 23.6
     },
     {
       "player": "Dave Gordon",
@@ -190,7 +190,7 @@
       "placing_pts": 28,
       "tournament_win_pts": 8,
       "advancement_pts": 20,
-      "participation_pct": 13.5
+      "participation_pct": 13.4
     },
     {
       "player": "Dave Kozac",
@@ -210,19 +210,19 @@
     },
     {
       "player": "Robert Loveless",
-      "total_points": 707,
-      "wins": 403,
-      "losses": 291,
-      "total_matches": 694,
-      "win_pct": 58.1,
-      "tournaments": 263,
-      "ppt": 2.69,
-      "placed_count": 110,
-      "placed_pct": 41.8,
-      "placing_pts": 304,
+      "total_points": 712,
+      "wins": 406,
+      "losses": 292,
+      "total_matches": 698,
+      "win_pct": 58.2,
+      "tournaments": 264,
+      "ppt": 2.7,
+      "placed_count": 111,
+      "placed_pct": 42,
+      "placing_pts": 306,
       "tournament_win_pts": 168,
-      "advancement_pts": 136,
-      "participation_pct": 65.6
+      "advancement_pts": 138,
+      "participation_pct": 65.7
     },
     {
       "player": "Les Bunning",
@@ -238,7 +238,7 @@
       "placing_pts": 34,
       "tournament_win_pts": 12,
       "advancement_pts": 22,
-      "participation_pct": 18.5
+      "participation_pct": 18.4
     },
     {
       "player": "Darren Morenstein",
@@ -254,7 +254,7 @@
       "placing_pts": 28,
       "tournament_win_pts": 16,
       "advancement_pts": 12,
-      "participation_pct": 12.5
+      "participation_pct": 12.4
     },
     {
       "player": "Paul Stebbing",
@@ -270,7 +270,7 @@
       "placing_pts": 54,
       "tournament_win_pts": 20,
       "advancement_pts": 34,
-      "participation_pct": 15.5
+      "participation_pct": 15.4
     },
     {
       "player": "Adam Stebbing",
@@ -350,7 +350,7 @@
       "placing_pts": 130,
       "tournament_win_pts": 80,
       "advancement_pts": 50,
-      "participation_pct": 34.9
+      "participation_pct": 34.8
     },
     {
       "player": "John Majic",
@@ -596,17 +596,17 @@
       "player": "Richard Waterhouse",
       "total_points": 232,
       "wins": 154,
-      "losses": 277,
-      "total_matches": 431,
-      "win_pct": 35.7,
-      "tournaments": 185,
+      "losses": 279,
+      "total_matches": 433,
+      "win_pct": 35.6,
+      "tournaments": 186,
       "ppt": 1.25,
       "placed_count": 31,
-      "placed_pct": 16.8,
+      "placed_pct": 16.7,
       "placing_pts": 78,
       "tournament_win_pts": 32,
       "advancement_pts": 46,
-      "participation_pct": 46.1
+      "participation_pct": 46.3
     },
     {
       "player": "Ayoub Ayoub",
@@ -738,19 +738,19 @@
     },
     {
       "player": "Tom Leesnurm",
-      "total_points": 109,
-      "wins": 69,
+      "total_points": 110,
+      "wins": 70,
       "losses": 182,
-      "total_matches": 251,
-      "win_pct": 27.5,
-      "tournaments": 109,
+      "total_matches": 252,
+      "win_pct": 27.8,
+      "tournaments": 110,
       "ppt": 1,
       "placed_count": 18,
-      "placed_pct": 16.5,
+      "placed_pct": 16.4,
       "placing_pts": 40,
       "tournament_win_pts": 8,
       "advancement_pts": 32,
-      "participation_pct": 27.2
+      "participation_pct": 27.4
     },
     {
       "player": "Aaron Tikuisis",
@@ -830,7 +830,7 @@
       "placing_pts": 44,
       "tournament_win_pts": 24,
       "advancement_pts": 20,
-      "participation_pct": 14
+      "participation_pct": 13.9
     },
     {
       "player": "Berkley Stdennis",
@@ -898,19 +898,19 @@
     },
     {
       "player": "Marc Beauregard",
-      "total_points": 56,
-      "wins": 40,
-      "losses": 160,
-      "total_matches": 200,
-      "win_pct": 20,
-      "tournaments": 92,
+      "total_points": 57,
+      "wins": 41,
+      "losses": 161,
+      "total_matches": 202,
+      "win_pct": 20.3,
+      "tournaments": 93,
       "ppt": 0.61,
       "placed_count": 8,
-      "placed_pct": 8.7,
+      "placed_pct": 8.6,
       "placing_pts": 16,
       "tournament_win_pts": 0,
       "advancement_pts": 16,
-      "participation_pct": 22.9
+      "participation_pct": 23.1
     },
     {
       "player": "Orad Reshef",
@@ -926,23 +926,23 @@
       "placing_pts": 100,
       "tournament_win_pts": 48,
       "advancement_pts": 52,
-      "participation_pct": 18.5
+      "participation_pct": 18.4
     },
     {
       "player": "Mats Lindhe",
       "total_points": 226,
       "wins": 140,
-      "losses": 133,
-      "total_matches": 273,
-      "win_pct": 51.3,
-      "tournaments": 104,
-      "ppt": 2.17,
+      "losses": 135,
+      "total_matches": 275,
+      "win_pct": 50.9,
+      "tournaments": 105,
+      "ppt": 2.15,
       "placed_count": 33,
-      "placed_pct": 31.7,
+      "placed_pct": 31.4,
       "placing_pts": 86,
       "tournament_win_pts": 40,
       "advancement_pts": 46,
-      "participation_pct": 25.9
+      "participation_pct": 26.1
     },
     {
       "player": "Saba Ghawi",
@@ -1377,7 +1377,7 @@
       "participation_pct": 0.2
     }
   ],
-  "total_tournaments": 401,
+  "total_tournaments": 402,
   "attendance": {
     "2017-03-22": 6,
     "2017-03-29": 9,
@@ -1779,7 +1779,8 @@
     "2026-02-25": 9,
     "2026-03-04": 9,
     "2026-03-18": 12,
-    "2026-03-25": 8
+    "2026-03-25": 8,
+    "2026-04-01": 9
   },
   "cumulative": {
     "Rick Wedge": [
@@ -1989,7 +1990,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 384
+        "cumulative": 385
       }
     ],
     "Stuart Thomson": [
@@ -2031,7 +2032,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 1207
+        "cumulative": 1214
       }
     ],
     "Robert Lessard": [
@@ -2157,7 +2158,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 663
+        "cumulative": 668
       }
     ],
     "Bruce Farquhar": [
@@ -2367,7 +2368,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 707
+        "cumulative": 712
       }
     ],
     "Les Bunning": [
@@ -3753,7 +3754,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 109
+        "cumulative": 110
       }
     ],
     "Aaron Tikuisis": [
@@ -4173,7 +4174,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 56
+        "cumulative": 57
       }
     ],
     "Orad Reshef": [
@@ -5996,16 +5997,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 9,
-        "wins": 11,
-        "losses": 11,
-        "points": 19,
+        "tournaments": 10,
+        "wins": 12,
+        "losses": 13,
+        "points": 20,
         "placing_pts": 8,
         "placed_count": 3,
         "tournament_win_pts": 4,
         "advancement_pts": 4,
-        "ppt": 2.11,
-        "win_pct": 50
+        "ppt": 2,
+        "win_pct": 48
       }
     ],
     "Stuart Thomson": [
@@ -6128,16 +6129,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 11,
-        "wins": 23,
+        "tournaments": 12,
+        "wins": 26,
         "losses": 11,
-        "points": 41,
-        "placing_pts": 18,
-        "placed_count": 7,
-        "tournament_win_pts": 8,
+        "points": 48,
+        "placing_pts": 22,
+        "placed_count": 8,
+        "tournament_win_pts": 12,
         "advancement_pts": 10,
-        "ppt": 3.73,
-        "win_pct": 67.6
+        "ppt": 4,
+        "win_pct": 70.3
       }
     ],
     "Robert Lessard": [
@@ -6380,16 +6381,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 11,
+        "tournaments": 12,
         "wins": 14,
-        "losses": 12,
+        "losses": 14,
         "points": 22,
         "placing_pts": 8,
         "placed_count": 2,
         "tournament_win_pts": 8,
         "advancement_pts": 0,
-        "ppt": 2,
-        "win_pct": 53.8
+        "ppt": 1.83,
+        "win_pct": 50
       }
     ],
     "Alex Sakran": [
@@ -6512,16 +6513,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 7,
-        "wins": 15,
-        "losses": 8,
-        "points": 27,
-        "placing_pts": 12,
-        "placed_count": 5,
+        "tournaments": 8,
+        "wins": 18,
+        "losses": 9,
+        "points": 32,
+        "placing_pts": 14,
+        "placed_count": 6,
         "tournament_win_pts": 4,
-        "advancement_pts": 8,
-        "ppt": 3.86,
-        "win_pct": 65.2
+        "advancement_pts": 10,
+        "ppt": 4,
+        "win_pct": 66.7
       }
     ],
     "Bruce Farquhar": [
@@ -7126,16 +7127,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 8,
-        "wins": 16,
-        "losses": 6,
-        "points": 30,
-        "placing_pts": 14,
-        "placed_count": 4,
+        "tournaments": 9,
+        "wins": 19,
+        "losses": 7,
+        "points": 35,
+        "placing_pts": 16,
+        "placed_count": 5,
         "tournament_win_pts": 12,
-        "advancement_pts": 2,
-        "ppt": 3.75,
-        "win_pct": 72.7
+        "advancement_pts": 4,
+        "ppt": 3.89,
+        "win_pct": 73.1
       }
     ],
     "Les Bunning": [
@@ -9964,16 +9965,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 8,
+        "tournaments": 9,
         "wins": 9,
-        "losses": 10,
+        "losses": 12,
         "points": 11,
         "placing_pts": 2,
         "placed_count": 1,
         "tournament_win_pts": 0,
         "advancement_pts": 2,
-        "ppt": 1.38,
-        "win_pct": 47.4
+        "ppt": 1.22,
+        "win_pct": 42.9
       }
     ],
     "Ayoub Ayoub": [
@@ -10996,16 +10997,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 9,
-        "wins": 6,
+        "tournaments": 10,
+        "wins": 7,
         "losses": 15,
-        "points": 10,
+        "points": 11,
         "placing_pts": 4,
         "placed_count": 1,
         "tournament_win_pts": 4,
         "advancement_pts": 0,
-        "ppt": 1.11,
-        "win_pct": 28.6
+        "ppt": 1.1,
+        "win_pct": 31.8
       }
     ],
     "Aaron Tikuisis": [
@@ -12158,16 +12159,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 11,
-        "wins": 4,
-        "losses": 21,
-        "points": 4,
+        "tournaments": 12,
+        "wins": 5,
+        "losses": 22,
+        "points": 5,
         "placing_pts": 0,
         "placed_count": 0,
         "tournament_win_pts": 0,
         "advancement_pts": 0,
-        "ppt": 0.36,
-        "win_pct": 16
+        "ppt": 0.42,
+        "win_pct": 18.5
       }
     ],
     "Orad Reshef": [
@@ -12398,16 +12399,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 7,
+        "tournaments": 8,
         "wins": 9,
-        "losses": 9,
+        "losses": 11,
         "points": 13,
         "placing_pts": 4,
         "placed_count": 2,
         "tournament_win_pts": 0,
         "advancement_pts": 4,
-        "ppt": 1.86,
-        "win_pct": 50
+        "ppt": 1.63,
+        "win_pct": 45
       }
     ],
     "Saba Ghawi": [
@@ -18944,6 +18945,12 @@
         "wins": 0,
         "losses": 2,
         "placing": 0
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 1,
+        "losses": 2,
+        "placing": 0
       }
     ],
     "Stuart Thomson": [
@@ -21128,6 +21135,12 @@
       {
         "date": "2026-03-25",
         "wins": 4,
+        "losses": 0,
+        "placing": 4
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 3,
         "losses": 0,
         "placing": 4
       }
@@ -23792,6 +23805,12 @@
         "wins": 1,
         "losses": 1,
         "placing": 0
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 0,
+        "losses": 2,
+        "placing": 0
       }
     ],
     "Alex Sakran": [
@@ -25450,6 +25469,12 @@
         "wins": 2,
         "losses": 1,
         "placing": 0
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 3,
+        "losses": 1,
+        "placing": 2
       }
     ],
     "Bruce Farquhar": [
@@ -28136,6 +28161,12 @@
         "wins": 1,
         "losses": 1,
         "placing": 0
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 3,
+        "losses": 1,
+        "placing": 2
       }
     ],
     "Les Bunning": [
@@ -33062,6 +33093,12 @@
         "wins": 2,
         "losses": 1,
         "placing": 2
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 0,
+        "losses": 2,
+        "placing": 0
       }
     ],
     "Ayoub Ayoub": [
@@ -33781,6 +33818,12 @@
         "date": "2026-03-18",
         "wins": 1,
         "losses": 1,
+        "placing": 0
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 1,
+        "losses": 0,
         "placing": 0
       }
     ],
@@ -35344,6 +35387,12 @@
         "wins": 0,
         "losses": 2,
         "placing": 0
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 1,
+        "losses": 1,
+        "placing": 0
       }
     ],
     "Orad Reshef": [
@@ -36422,6 +36471,12 @@
         "wins": 3,
         "losses": 1,
         "placing": 2
+      },
+      {
+        "date": "2026-04-01",
+        "wins": 0,
+        "losses": 2,
+        "placing": 0
       }
     ],
     "Saba Ghawi": [
@@ -36869,5 +36924,5 @@
       }
     ]
   },
-  "last_updated": "2026-04-04T00:15:57.108Z"
+  "last_updated": "2026-04-04T00:57:17.597Z"
 }
