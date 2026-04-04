@@ -199,6 +199,7 @@ async function publishViaProxy(settings) {
   showPublishAlert('', '');
 
   try {
+    state.DATA.last_updated = new Date().toISOString();
     const content = JSON.stringify(state.DATA, null, 2);
     const resp = await fetch(PROXY_URL, {
       method: 'POST',
@@ -273,6 +274,7 @@ async function publishDirect(settings) {
       if (e instanceof TokenError) throw e;
     }
 
+    state.DATA.last_updated = new Date().toISOString();
     const content = JSON.stringify(state.DATA, null, 2);
     const base64 = btoa(unescape(encodeURIComponent(content)));
 

@@ -200,17 +200,15 @@ export function updateDataSourceInfo() {
     ? latestTournament.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     : 'unknown';
   const stored = loadDataFromStorage();
-  if (stored && stored.data) {
-    const uploadDate = new Date(stored.uploadedAt);
-    const best = latestTournament && latestTournament > uploadDate ? latestTournament : uploadDate;
-    const dateStr = best.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    el.innerHTML = `Updated <strong>${dateStr}</strong>`;
-  } else {
-    const updatedStr = latestTournament
-      ? latestTournament.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-      : 'unknown';
-    el.innerHTML = `Updated <strong>${updatedStr}</strong>`;
+  let updatedDate = state.DATA.last_updated ? new Date(state.DATA.last_updated) : null;
+  if (!updatedDate && stored && stored.data) {
+    updatedDate = new Date(stored.uploadedAt);
   }
+  if (!updatedDate) updatedDate = latestTournament;
+  const updatedStr = updatedDate
+    ? updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    : 'unknown';
+  el.innerHTML = `Updated <strong>${updatedStr}</strong>`;
   // Update subtitle counts
   const dates = allDates;
   const firstYear = dates[0] ? dates[0].slice(0, 4) : '?';
