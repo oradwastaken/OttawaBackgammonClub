@@ -1202,19 +1202,19 @@
     },
     {
       "player": "Andre Prigoci",
-      "total_points": 0,
-      "wins": 0,
-      "losses": 4,
-      "total_matches": 4,
-      "win_pct": 0,
-      "tournaments": 2,
-      "ppt": 0,
+      "total_points": 1,
+      "wins": 1,
+      "losses": 5,
+      "total_matches": 6,
+      "win_pct": 16.7,
+      "tournaments": 3,
+      "ppt": 0.33,
       "placed_count": 0,
       "placed_pct": 0,
       "placing_pts": 0,
       "tournament_win_pts": 0,
       "advancement_pts": 0,
-      "participation_pct": 0.5
+      "participation_pct": 0.7
     },
     {
       "player": "Daniel Silianu",
@@ -1390,22 +1390,6 @@
       "placing_pts": 2,
       "tournament_win_pts": 0,
       "advancement_pts": 2,
-      "participation_pct": 0.2
-    },
-    {
-      "player": "Andre",
-      "total_points": 1,
-      "wins": 1,
-      "losses": 1,
-      "total_matches": 2,
-      "win_pct": 50,
-      "tournaments": 1,
-      "ppt": 1,
-      "placed_count": 0,
-      "placed_pct": 0,
-      "placing_pts": 0,
-      "tournament_win_pts": 0,
-      "advancement_pts": 0,
       "participation_pct": 0.2
     }
   ],
@@ -5008,7 +4992,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 0
+        "cumulative": 1
       }
     ],
     "Daniel Silianu": [
@@ -5471,48 +5455,6 @@
       {
         "year": "2026",
         "cumulative": 4
-      }
-    ],
-    "Andre": [
-      {
-        "year": "2017",
-        "cumulative": 0
-      },
-      {
-        "year": "2018",
-        "cumulative": 0
-      },
-      {
-        "year": "2019",
-        "cumulative": 0
-      },
-      {
-        "year": "2020",
-        "cumulative": 0
-      },
-      {
-        "year": "2021",
-        "cumulative": 0
-      },
-      {
-        "year": "2022",
-        "cumulative": 0
-      },
-      {
-        "year": "2023",
-        "cumulative": 0
-      },
-      {
-        "year": "2024",
-        "cumulative": 0
-      },
-      {
-        "year": "2025",
-        "cumulative": 0
-      },
-      {
-        "year": "2026",
-        "cumulative": 1
       }
     ]
   },
@@ -14467,14 +14409,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
+        "tournaments": 1,
+        "wins": 1,
+        "losses": 1,
+        "points": 1,
         "placing_pts": 0,
         "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
+        "tournament_win_pts": 0,
+        "advancement_pts": 0,
+        "ppt": 1,
+        "win_pct": 50
       }
     ],
     "Daniel Silianu": [
@@ -15729,120 +15673,6 @@
         "advancement_pts": 2,
         "ppt": 4,
         "win_pct": 66.7
-      }
-    ],
-    "Andre": [
-      {
-        "year": "2017",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2018",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2019",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2020",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2021",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2022",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2023",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2024",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2025",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2026",
-        "tournaments": 1,
-        "wins": 1,
-        "losses": 1,
-        "points": 1,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "tournament_win_pts": 0,
-        "advancement_pts": 0,
-        "ppt": 1,
-        "win_pct": 50
       }
     ]
   },
@@ -37375,6 +37205,12 @@
         "wins": 0,
         "losses": 2,
         "placing": 0
+      },
+      {
+        "date": "2026-04-29",
+        "wins": 1,
+        "losses": 1,
+        "placing": 0
       }
     ],
     "Daniel Silianu": [
@@ -37482,15 +37318,7 @@
         "losses": 1,
         "placing": 2
       }
-    ],
-    "Andre": [
-      {
-        "date": "2026-04-29",
-        "wins": 1,
-        "losses": 1,
-        "placing": 0
-      }
     ]
   },
-  "last_updated": "2026-05-04T20:02:03.590Z"
+  "last_updated": "2026-05-04T20:07:21.138Z"
 }
