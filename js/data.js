@@ -215,4 +215,13 @@ export function updateDataSourceInfo() {
   const lastYear = dates[dates.length - 1] ? dates[dates.length - 1].slice(0, 4) : '?';
   document.getElementById('header-subtitle').innerHTML =
     `Player Statistics &amp; Performance Dashboard &mdash; as of <strong>${asOfStr}</strong> &mdash; ${state.DATA.total_tournaments} Tournaments &bull; ${state.DATA.players.length} Players &bull; ${firstYear} &ndash; ${lastYear}`;
+
+  const footer = document.getElementById('footer-info');
+  if (footer) {
+    const monthYear = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    const fromStr = dates[0] ? monthYear(dates[0]) : '?';
+    const toStr = dates[dates.length - 1] ? monthYear(dates[dates.length - 1]) : '?';
+    footer.innerHTML =
+      `Ottawa Area Backgammon Club &bull; Data from ${fromStr} to ${toStr} &bull; ${state.DATA.total_tournaments} Weekly Tournaments`;
+  }
 }
