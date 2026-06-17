@@ -166,6 +166,12 @@ body::before {
   gap: 24px;
 }
 
+/* Allow cards to shrink below their content's min-content so a single-column
+   grid track doesn't get locked wide (and clipped) on narrow screens. */
+.leaderboard-grid > .card {
+  min-width: 0;
+}
+
 /* Podium */
 .podium-area {
   display: flex;
@@ -185,6 +191,7 @@ body::before {
   text-align: center;
   flex: 1;
   max-width: 160px;
+  min-width: 0;
 }
 
 .podium-avatar {
@@ -201,7 +208,13 @@ body::before {
   position: relative;
 }
 
-/* Podium avatar styling is set via inline styles in buildPodium() */
+.podium-avatar.is-first {
+  width: 68px;
+  height: 68px;
+  font-size: 22px;
+}
+
+/* Podium avatar colors are set inline in buildPodium(); sizes are responsive via CSS */
 
 .podium-name {
   font-size: 13px;
@@ -937,6 +950,7 @@ body::before {
   .podium { gap: 8px; padding-top: 12px; margin-bottom: 16px; }
   .podium-slot { max-width: 120px; }
   .podium-avatar { width: 44px; height: 44px; font-size: 15px; }
+  .podium-avatar.is-first { width: 52px; height: 52px; font-size: 17px; }
   .podium-name { font-size: 12px; }
   .podium-pts { font-size: 15px; }
   .podium-sub { font-size: 10px; }
@@ -1008,6 +1022,7 @@ body::before {
   .podium { gap: 6px; }
   .podium-slot { max-width: 100px; }
   .podium-avatar { width: 38px; height: 38px; font-size: 13px; border-width: 2px; }
+  .podium-avatar.is-first { width: 46px; height: 46px; font-size: 15px; }
   .podium-name { font-size: 11px; }
   .podium-pts { font-size: 13px; }
   .crown { font-size: 16px; top: -14px; }

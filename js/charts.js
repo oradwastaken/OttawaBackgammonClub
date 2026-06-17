@@ -115,14 +115,12 @@ export function buildPodium() {
     const crown = rank === 1 ? '<span class="crown">&#9813;</span>' : '';
     const pc = PODIUM_COLORS[Math.min(rank, 5)];
     const isFirst = rank === 1;
-    const avatarSize = isFirst ? 68 : 56;
-    const fontSize = isFirst ? 22 : 18;
     // Bar height: interpolate between MIN_BAR and MAX_BAR based on position in points range
     const pts = Math.round(p.total_points);
     const barH = ptsRange > 0 ? MIN_BAR + ((pts - botPts) / ptsRange) * (MAX_BAR - MIN_BAR) : MAX_BAR;
     return `
       <div class="podium-slot clickable" onclick="openModal('${p.player}')">
-        <div class="podium-avatar" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};width:${avatarSize}px;height:${avatarSize}px;font-size:${fontSize}px;">${crown}${initials(p.player)}</div>
+        <div class="podium-avatar${isFirst ? ' is-first' : ''}" style="background:${pc.bg};border-color:${pc.border};color:${pc.color};">${crown}${initials(p.player)}</div>
         <div class="podium-name">${p.player}</div>
         <div class="podium-pts">${Math.round(p.total_points)} pts</div>
         <div class="podium-sub"><span style="color:${COLORS.blue}">${getBreakdownData(p).wins}</span> <span title="Match Wins">MW</span> · <span style="color:${COLORS.gold}">${Math.round(getBreakdownData(p).tournamentWins / 4)}</span> <span title="Tournament Wins">TW</span> · <span style="color:${COLORS.emerald}">${Math.round(getBreakdownData(p).advancements / 2)}</span> <span title="Tournament Advancements">TA</span></div>
