@@ -56,7 +56,7 @@ export function parseExcelToData(workbook) {
     }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) continue;
 
-    const name = toTitleCase(String(row[playerCol]).trim());
+    const name = toTitleCase(String(row[playerCol]).replace(/\s+/g, ' ').trim());
     if (!name) continue;
 
     const wins = Number(row[winsCol]) || 0;

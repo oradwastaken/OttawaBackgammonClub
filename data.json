@@ -50,19 +50,19 @@
     },
     {
       "player": "Eden Windish",
-      "total_points": 8,
-      "wins": 6,
-      "losses": 7,
-      "total_matches": 13,
-      "win_pct": 46.2,
-      "tournaments": 5,
-      "ppt": 1.6,
+      "total_points": 9,
+      "wins": 7,
+      "losses": 8,
+      "total_matches": 15,
+      "win_pct": 46.7,
+      "tournaments": 6,
+      "ppt": 1.5,
       "placed_count": 1,
-      "placed_pct": 20,
+      "placed_pct": 16.7,
       "placing_pts": 2,
       "tournament_win_pts": 0,
       "advancement_pts": 2,
-      "participation_pct": 1.2
+      "participation_pct": 1.4
     },
     {
       "player": "Zahi Deek",
@@ -1393,22 +1393,6 @@
       "participation_pct": 0.2
     },
     {
-      "player": "Eden  Windish",
-      "total_points": 1,
-      "wins": 1,
-      "losses": 1,
-      "total_matches": 2,
-      "win_pct": 50,
-      "tournaments": 1,
-      "ppt": 1,
-      "placed_count": 0,
-      "placed_pct": 0,
-      "placing_pts": 0,
-      "tournament_win_pts": 0,
-      "advancement_pts": 0,
-      "participation_pct": 0.2
-    },
-    {
       "player": "Kim Davis",
       "total_points": 0,
       "wins": 0,
@@ -2008,7 +1992,7 @@
       },
       {
         "year": "2026",
-        "cumulative": 8
+        "cumulative": 9
       }
     ],
     "Zahi Deek": [
@@ -5497,48 +5481,6 @@
         "cumulative": 4
       }
     ],
-    "Eden  Windish": [
-      {
-        "year": "2017",
-        "cumulative": 0
-      },
-      {
-        "year": "2018",
-        "cumulative": 0
-      },
-      {
-        "year": "2019",
-        "cumulative": 0
-      },
-      {
-        "year": "2020",
-        "cumulative": 0
-      },
-      {
-        "year": "2021",
-        "cumulative": 0
-      },
-      {
-        "year": "2022",
-        "cumulative": 0
-      },
-      {
-        "year": "2023",
-        "cumulative": 0
-      },
-      {
-        "year": "2024",
-        "cumulative": 0
-      },
-      {
-        "year": "2025",
-        "cumulative": 0
-      },
-      {
-        "year": "2026",
-        "cumulative": 1
-      }
-    ],
     "Kim Davis": [
       {
         "year": "2017",
@@ -6055,14 +5997,16 @@
       },
       {
         "year": "2026",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
+        "tournaments": 1,
+        "wins": 1,
+        "losses": 1,
+        "points": 1,
         "placing_pts": 0,
         "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
+        "tournament_win_pts": 0,
+        "advancement_pts": 0,
+        "ppt": 1,
+        "win_pct": 50
       }
     ],
     "Zahi Deek": [
@@ -15805,120 +15749,6 @@
         "win_pct": 66.7
       }
     ],
-    "Eden  Windish": [
-      {
-        "year": "2017",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2018",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2019",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2020",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2021",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2022",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2023",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2024",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2025",
-        "tournaments": 0,
-        "wins": 0,
-        "losses": 0,
-        "points": 0,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "ppt": 0,
-        "win_pct": 0
-      },
-      {
-        "year": "2026",
-        "tournaments": 1,
-        "wins": 1,
-        "losses": 1,
-        "points": 1,
-        "placing_pts": 0,
-        "placed_count": 0,
-        "tournament_win_pts": 0,
-        "advancement_pts": 0,
-        "ppt": 1,
-        "win_pct": 50
-      }
-    ],
     "Kim Davis": [
       {
         "year": "2017",
@@ -18182,6 +18012,12 @@
         "date": "2025-11-05",
         "wins": 1,
         "losses": 2,
+        "placing": 0
+      },
+      {
+        "date": "2026-05-27",
+        "wins": 1,
+        "losses": 1,
         "placing": 0
       }
     ],
@@ -38089,14 +37925,6 @@
         "wins": 2,
         "losses": 1,
         "placing": 2
-      }
-    ],
-    "Eden  Windish": [
-      {
-        "date": "2026-05-27",
-        "wins": 1,
-        "losses": 1,
-        "placing": 0
       }
     ],
     "Kim Davis": [
